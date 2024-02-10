@@ -4,11 +4,11 @@
 
 Table status {
   id Int [pk, increment]
-  ticket Boolean [not null]
-  discord Boolean [not null]
-  gear_check Boolean [not null]
-  pov Boolean [not null]
-  status_ticket String
+  ticket Boolean [not null, default: false]
+  discord Boolean [not null, default: false]
+  gear_check Boolean [not null, default: false]
+  pov Boolean [not null, default: false]
+  status_ticket String [default: '']
   Player player [not null]
 }
 
@@ -24,7 +24,7 @@ Table player {
   id Int [pk, increment]
   user_id Int [not null]
   character_name String [not null]
-  level Int [not null]
+  level Level [not null]
   faction Faction [not null]
   roles Role[] [not null]
   weight Weight [not null]
@@ -34,6 +34,25 @@ Table player {
   status_id Int [not null]
   created_at DateTime [default: `now()`, not null]
   updated_at DateTime [not null]
+  Group group
+  groupId Int
+}
+
+Table War {
+  id Int [pk, increment]
+  war_date DateTime [default: `now()`, not null]
+  created_at DateTime [default: `now()`, not null]
+  updated_at DateTime [not null]
+  groups group [not null]
+}
+
+Table group {
+  id Int [pk, increment]
+  players player [not null]
+  created_at DateTime [default: `now()`, not null]
+  updated_at DateTime [not null]
+  War War
+  warId Int
 }
 
 Enum Faction {
@@ -78,4 +97,15 @@ Enum Rune_Coeur {
   Grasping_Vines
 }
 
+Enum Level {
+  rookie
+  intermediate
+  experienced
+  veteran
+}
+
 Ref: player.status_id > status.id
+
+Ref: player.groupId > group.id
+
+Ref: group.warId > War.id

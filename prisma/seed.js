@@ -1,6 +1,7 @@
 import { faker } from "@faker-js/faker";
 import {
   Faction,
+  Level,
   PrismaClient,
   Role,
   Rune_Coeur,
@@ -17,6 +18,12 @@ function getRandomFromArray(arr) {
 async function seed() {
   try {
     // Seed assign to player
+    const levelList = [
+      Level.rookie,
+      Level.intermediate,
+      Level.experienced,
+      Level.veteran
+    ]
     const factionList = [
       Faction.Covenant,
       Faction.Marauders,
@@ -69,7 +76,6 @@ async function seed() {
         create: {
           user_id: i,
           character_name: faker.person.firstName(),
-          level: faker.number.int({ min: 1, max: 50 }),
           faction: getRandomFromArray(factionList),
           roles: [getRandomFromArray(roleList)],
           weight: getRandomFromArray(weightList),
@@ -84,6 +90,7 @@ async function seed() {
               status_ticket: getRandomFromArray(["ok", "nok"]),
             },
           },
+          level: getRandomFromArray(levelList),
         },
       });
     }

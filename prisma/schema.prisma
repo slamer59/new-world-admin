@@ -42,7 +42,7 @@ model Player {
     id             Int        @id @default(autoincrement())
     user_id        Int
     character_name String
-    level          Int
+    level          Level
     faction        Faction
     roles          Role[]
     weight         Weight
@@ -52,6 +52,8 @@ model Player {
     status_id      Int
     created_at     DateTime   @default(now())
     updated_at     DateTime   @updatedAt
+    Group          Group?     @relation(fields: [groupId], references: [id])
+    groupId        Int?
 
     @@map(name: "player")
 }
@@ -98,10 +100,28 @@ enum Rune_Coeur {
     Grasping_Vines
 }
 
+enum Level {
+    rookie
+    intermediate
+    experienced
+    veteran
+}
+
 model War {
     id         Int      @id @default(autoincrement())
     war_date   DateTime @default(now())
     created_at DateTime @default(now())
     updated_at DateTime @updatedAt
     groups     Group[]
+}
+
+model Group {
+    id         Int      @id @default(autoincrement())
+    players    Player[]
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+    War        War?     @relation(fields: [warId], references: [id])
+    warId      Int?
+
+    @@map(name: "group")
 }
