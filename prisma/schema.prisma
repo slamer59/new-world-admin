@@ -42,13 +42,14 @@ model Player {
 }
 
 model PlayerType {
-    id               Int             @id @default(autoincrement())
-    role             RoleType        @unique
-    level            Level           @default(rookie)
-    created_at       DateTime        @default(now())
-    updated_at       DateTime        @updatedAt
-    WarComposition   WarComposition? @relation(fields: [warCompositionId], references: [id])
-    warCompositionId Int?
+    id         Int      @id @default(autoincrement())
+    name       String
+    role       RoleType
+    level      Level    @default(rookie)
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+
+    warComposition WarComposition[]
 }
 
 model Role {
@@ -124,8 +125,13 @@ enum RoleType {
 enum Rune {
     Detonate
     Stoneform
-    Fire_Storm
-    Grasping_Vines
+    FireStorm
+    GraspingVines
+    BileBomb
+    CanonBlast
+    DarkAscent
+    PrimalFury
+    TheDevourer
 }
 
 enum WeightLimit {
@@ -143,17 +149,17 @@ enum Level {
 
 model War {
     id         Int      @id @default(autoincrement())
-    war_date   DateTime @default(now())
+    date       DateTime @default(now())
     created_at DateTime @default(now())
     updated_at DateTime @updatedAt
 }
 
 model WarComposition {
     id         Int          @id @default(autoincrement())
-    groupId    Int
+    name       String
     position   WarPosition
     slot       Player[]
-    playerType PlayerType[]
     created_at DateTime     @default(now())
     updated_at DateTime     @updatedAt
+    playerType PlayerType[]
 }

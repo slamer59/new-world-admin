@@ -27,12 +27,12 @@ Table Player {
 
 Table PlayerType {
   id Int [pk, increment]
-  role RoleType [unique, not null]
+  name String [not null]
+  role RoleType [not null]
   level Level [not null, default: 'rookie']
   created_at DateTime [default: `now()`, not null]
   updated_at DateTime [not null]
-  WarComposition WarComposition
-  warCompositionId Int
+  warComposition WarComposition [not null]
 }
 
 Table Role {
@@ -61,19 +61,19 @@ Table Status {
 
 Table War {
   id Int [pk, increment]
-  war_date DateTime [default: `now()`, not null]
+  date DateTime [default: `now()`, not null]
   created_at DateTime [default: `now()`, not null]
   updated_at DateTime [not null]
 }
 
 Table WarComposition {
   id Int [pk, increment]
-  groupId Int [not null]
+  name String [not null]
   position WarPosition [not null]
   slot Player [not null]
-  playerType PlayerType [not null]
   created_at DateTime [default: `now()`, not null]
   updated_at DateTime [not null]
+  playerType PlayerType [not null]
 }
 
 Enum WarPosition {
@@ -124,8 +124,13 @@ Enum RoleType {
 Enum Rune {
   Detonate
   Stoneform
-  Fire_Storm
-  Grasping_Vines
+  FireStorm
+  GraspingVines
+  BileBomb
+  CanonBlast
+  DarkAscent
+  PrimalFury
+  TheDevourer
 }
 
 Enum WeightLimit {
@@ -146,7 +151,5 @@ Ref: Player.userId - User.id
 Ref: Player.statusId > Status.id
 
 Ref: Player.warCompositionId > WarComposition.id
-
-Ref: PlayerType.warCompositionId > WarComposition.id
 
 Ref: Role.playerId > Player.id
