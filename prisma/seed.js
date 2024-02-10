@@ -1,16 +1,15 @@
 import { faker } from "@faker-js/faker";
 import {
-  Faction,
   Level,
   PrismaClient,
-  Role,
-  Rune_Coeur,
-  Spec,
-  Weight,
+  RoleType,
+  Rune,
+  Weapon,
+  WeightLimit,
 } from "@prisma/client";
 
 const prisma = new PrismaClient();
-
+const numberOfPlayer = 20
 function getRandomFromArray(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
 }
@@ -22,44 +21,50 @@ async function seed() {
       Level.rookie,
       Level.intermediate,
       Level.experienced,
-      Level.veteran
-    ]
-    const factionList = [
-      Faction.Covenant,
-      Faction.Marauders,
-      Faction.Syndicate,
+      Level.veteran,
     ];
     const roleList = [
-      Role.Bruiser,
-      Role.Disrupter,
-      Role.Heal,
-      Role.Mage,
-      Role.Ranged,
-      Role.Support,
-      Role.Tank,
-      Role.zzz_lvling,
+      RoleType.Bruiser,
+      RoleType.Disrupter,
+      RoleType.Heal,
+      RoleType.Mage,
+      RoleType.Ranged,
+      RoleType.Support,
+      RoleType.Tank,
+      RoleType.zzz_lvling,
     ];
-    const weightList = [Weight.Heavy, Weight.Light, Weight.Medium];
-    const rune_coeurList = [
-      Rune_Coeur.Detonate,
-      Rune_Coeur.Fire_Storm,
-      Rune_Coeur.Grasping_Vines,
-      Rune_Coeur.Stoneform,
+    const weightList = [
+      WeightLimit.Light,
+      WeightLimit.Medium,
+      WeightLimit.Heavy,
     ];
-    const specList = [
-      Spec.GA_WH,
-      Spec.SnS_GS,
-      Spec.GS_HA,
-      Spec.GS_Spear,
-      Spec.SnS_Spear,
-      Spec.Spear_HA,
-      Spec.GA_BB,
-      Spec.Healer_DST,
-      Spec.Healer_Clap,
+    console.log("🚀 ~ seed ~ weightList:", weightList)
+    const runeList = [
+      Rune.Detonate,
+      Rune.Fire_Storm,
+      Rune.Grasping_Vines,
+      Rune.Stoneform,
     ];
+    const weaponList = [
+      Weapon.Bow,
+      Weapon.FireStaff,
+      Weapon.GreatAxe,
+      Weapon.GreatSword,
+      Weapon.Blunderbuss,
+      Weapon.Hatchet,
+      Weapon.IceGauntlet,
+      Weapon.LifeStaff,
+      Weapon.Musket,
+      Weapon.Rapier,
+      Weapon.Spear,
+      Weapon.Swords,
+      Weapon.WarHammer,
+      Weapon.VoidGauntlet
+    ];
+    console.log("🚀 ~ seed ~ weaponList:", weaponList)
 
     // Seed additional users
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < numberOfPlayer; i++) {
       await prisma.user.upsert({
         where: { id: i },
         update: {},
@@ -69,32 +74,19 @@ async function seed() {
           email: faker.internet.email(),
         },
       });
-
-      await prisma.player.upsert({
-        where: { id: i },
-        update: {},
-        create: {
-          user_id: i,
-          character_name: faker.person.firstName(),
-          faction: getRandomFromArray(factionList),
-          roles: [getRandomFromArray(roleList)],
-          weight: getRandomFromArray(weightList),
-          rune_coeur: getRandomFromArray(rune_coeurList),
-          spec: getRandomFromArray(specList),
-          status: {
-            create: {
-              ticket: getRandomFromArray([true, false]),
-              discord: getRandomFromArray([true, false]),
-              gear_check: getRandomFromArray([true, false]),
-              pov: getRandomFromArray([true, false]),
-              status_ticket: getRandomFromArray(["ok", "nok"]),
-            },
-          },
-          level: getRandomFromArray(levelList),
-        },
-      });
+      // await prisma.role.upsert({
+      //   where: { id: i },
+      //   update: {},
+      //   create: {
+      //     id: i,
+      //     role: getRandomFromArray(roleList),
+      //     rune: getRandomFromArray(runeList),
+      //     weapon: getRandomFromArray(weaponList),
+      //     weightLimit: getRandomFromArray(weightList),
+      //   },
+        
+      // });
     }
-
     // Seed the Player table
     // await prisma.player.upsert({
     //   where: { id: 1 },

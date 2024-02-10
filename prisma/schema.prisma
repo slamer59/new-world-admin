@@ -18,6 +18,51 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
+model User {
+    id         Int      @id @default(autoincrement())
+    username   String
+    email      String
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+    player     Player?
+}
+
+model Player {
+    id               Int             @id @default(autoincrement())
+    name             String
+    user             User            @relation(fields: [userId], references: [id])
+    userId           Int             @unique
+    roles            Role[]
+    status           Status          @relation(fields: [statusId], references: [id])
+    statusId         Int
+    created_at       DateTime        @default(now())
+    updated_at       DateTime        @updatedAt
+    warComposition   WarComposition? @relation(fields: [warCompositionId], references: [id])
+    warCompositionId Int?
+}
+
+model PlayerType {
+    id               Int             @id @default(autoincrement())
+    role             RoleType        @unique
+    level            Level           @default(rookie)
+    created_at       DateTime        @default(now())
+    updated_at       DateTime        @updatedAt
+    WarComposition   WarComposition? @relation(fields: [warCompositionId], references: [id])
+    warCompositionId Int?
+}
+
+model Role {
+    id          Int         @id @default(autoincrement())
+    role        RoleType
+    rune        Rune
+    weapon      Weapon
+    weightLimit WeightLimit
+    player      Player?     @relation(fields: [playerId], references: [id])
+    playerId    Int?
+    created_at  DateTime    @default(now())
+    updated_at  DateTime    @updatedAt
+}
+
 model Status {
     id            Int      @id @default(autoincrement())
     ticket        Boolean  @default(false)
@@ -25,37 +70,20 @@ model Status {
     gear_check    Boolean  @default(false)
     pov           Boolean  @default(false)
     status_ticket String?  @default("")
-    Player        Player[]
-
-    @@map(name: "status")
+    created_at    DateTime @default(now())
+    updated_at    DateTime @updatedAt
+    player        Player[]
 }
 
-model User {
-    id         Int      @id @default(autoincrement())
-    username   String
-    email      String
-    created_at DateTime @default(now())
-    updated_at DateTime @updatedAt
-}
-
-model Player {
-    id             Int        @id @default(autoincrement())
-    user_id        Int
-    character_name String
-    level          Level
-    faction        Faction
-    roles          Role[]
-    weight         Weight
-    rune_coeur     Rune_Coeur
-    spec           Spec
-    status         Status     @relation(fields: [status_id], references: [id])
-    status_id      Int
-    created_at     DateTime   @default(now())
-    updated_at     DateTime   @updatedAt
-    Group          Group?     @relation(fields: [groupId], references: [id])
-    groupId        Int?
-
-    @@map(name: "player")
+// Position of the player in the war
+enum WarPosition {
+    top_left
+    top_right
+    bottom_left
+    bottom_right
+    point
+    flank
+    flex
 }
 
 enum Faction {
@@ -64,7 +92,24 @@ enum Faction {
     Covenant
 }
 
-enum Role {
+enum Weapon {
+    Bow
+    FireStaff
+    GreatAxe
+    GreatSword
+    Blunderbuss
+    Hatchet
+    IceGauntlet
+    LifeStaff
+    Musket
+    Rapier
+    Spear
+    Swords
+    WarHammer
+    VoidGauntlet
+}
+
+enum RoleType {
     Bruiser
     Disrupter
     Heal
@@ -72,32 +117,21 @@ enum Role {
     Ranged
     Support
     Tank
+    Melee
     zzz_lvling
 }
 
-enum Spec {
-    GA_WH
-    SnS_GS
-    GS_HA
-    GS_Spear
-    SnS_Spear
-    Spear_HA
-    GA_BB
-    Healer_DST
-    Healer_Clap
-}
-
-enum Weight {
-    Light
-    Medium
-    Heavy
-}
-
-enum Rune_Coeur {
+enum Rune {
     Detonate
     Stoneform
     Fire_Storm
     Grasping_Vines
+}
+
+enum WeightLimit {
+    Light
+    Medium
+    Heavy
 }
 
 enum Level {
@@ -112,16 +146,14 @@ model War {
     war_date   DateTime @default(now())
     created_at DateTime @default(now())
     updated_at DateTime @updatedAt
-    groups     Group[]
 }
 
-model Group {
-    id         Int      @id @default(autoincrement())
-    players    Player[]
-    created_at DateTime @default(now())
-    updated_at DateTime @updatedAt
-    War        War?     @relation(fields: [warId], references: [id])
-    warId      Int?
-
-    @@map(name: "group")
+model WarComposition {
+    id         Int          @id @default(autoincrement())
+    groupId    Int
+    position   WarPosition
+    slot       Player[]
+    playerType PlayerType[]
+    created_at DateTime     @default(now())
+    updated_at DateTime     @updatedAt
 }

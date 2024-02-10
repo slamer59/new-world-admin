@@ -2,40 +2,61 @@
 //// THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 //// ------------------------------------------------------
 
-Table status {
-  id Int [pk, increment]
-  ticket Boolean [not null, default: false]
-  discord Boolean [not null, default: false]
-  gear_check Boolean [not null, default: false]
-  pov Boolean [not null, default: false]
-  status_ticket String [default: '']
-  Player player [not null]
-}
-
 Table User {
   id Int [pk, increment]
   username String [not null]
   email String [not null]
   created_at DateTime [default: `now()`, not null]
   updated_at DateTime [not null]
+  player Player
 }
 
-Table player {
+Table Player {
   id Int [pk, increment]
-  user_id Int [not null]
-  character_name String [not null]
-  level Level [not null]
-  faction Faction [not null]
-  roles Role[] [not null]
-  weight Weight [not null]
-  rune_coeur Rune_Coeur [not null]
-  spec Spec [not null]
-  status status [not null]
-  status_id Int [not null]
+  name String [not null]
+  user User [not null]
+  userId Int [unique, not null]
+  roles Role [not null]
+  status Status [not null]
+  statusId Int [not null]
   created_at DateTime [default: `now()`, not null]
   updated_at DateTime [not null]
-  Group group
-  groupId Int
+  warComposition WarComposition
+  warCompositionId Int
+}
+
+Table PlayerType {
+  id Int [pk, increment]
+  role RoleType [unique, not null]
+  level Level [not null, default: 'rookie']
+  created_at DateTime [default: `now()`, not null]
+  updated_at DateTime [not null]
+  WarComposition WarComposition
+  warCompositionId Int
+}
+
+Table Role {
+  id Int [pk, increment]
+  role RoleType [not null]
+  rune Rune [not null]
+  weapon Weapon [not null]
+  weightLimit WeightLimit [not null]
+  player Player
+  playerId Int
+  created_at DateTime [default: `now()`, not null]
+  updated_at DateTime [not null]
+}
+
+Table Status {
+  id Int [pk, increment]
+  ticket Boolean [not null, default: false]
+  discord Boolean [not null, default: false]
+  gear_check Boolean [not null, default: false]
+  pov Boolean [not null, default: false]
+  status_ticket String [default: '']
+  created_at DateTime [default: `now()`, not null]
+  updated_at DateTime [not null]
+  player Player [not null]
 }
 
 Table War {
@@ -43,16 +64,26 @@ Table War {
   war_date DateTime [default: `now()`, not null]
   created_at DateTime [default: `now()`, not null]
   updated_at DateTime [not null]
-  groups group [not null]
 }
 
-Table group {
+Table WarComposition {
   id Int [pk, increment]
-  players player [not null]
+  groupId Int [not null]
+  position WarPosition [not null]
+  slot Player [not null]
+  playerType PlayerType [not null]
   created_at DateTime [default: `now()`, not null]
   updated_at DateTime [not null]
-  War War
-  warId Int
+}
+
+Enum WarPosition {
+  top_left
+  top_right
+  bottom_left
+  bottom_right
+  point
+  flank
+  flex
 }
 
 Enum Faction {
@@ -61,7 +92,24 @@ Enum Faction {
   Covenant
 }
 
-Enum Role {
+Enum Weapon {
+  Bow
+  FireStaff
+  GreatAxe
+  GreatSword
+  Blunderbuss
+  Hatchet
+  IceGauntlet
+  LifeStaff
+  Musket
+  Rapier
+  Spear
+  Swords
+  WarHammer
+  VoidGauntlet
+}
+
+Enum RoleType {
   Bruiser
   Disrupter
   Heal
@@ -69,32 +117,21 @@ Enum Role {
   Ranged
   Support
   Tank
+  Melee
   zzz_lvling
 }
 
-Enum Spec {
-  GA_WH
-  SnS_GS
-  GS_HA
-  GS_Spear
-  SnS_Spear
-  Spear_HA
-  GA_BB
-  Healer_DST
-  Healer_Clap
-}
-
-Enum Weight {
-  Light
-  Medium
-  Heavy
-}
-
-Enum Rune_Coeur {
+Enum Rune {
   Detonate
   Stoneform
   Fire_Storm
   Grasping_Vines
+}
+
+Enum WeightLimit {
+  Light
+  Medium
+  Heavy
 }
 
 Enum Level {
@@ -104,8 +141,12 @@ Enum Level {
   veteran
 }
 
-Ref: player.status_id > status.id
+Ref: Player.userId - User.id
 
-Ref: player.groupId > group.id
+Ref: Player.statusId > Status.id
 
-Ref: group.warId > War.id
+Ref: Player.warCompositionId > WarComposition.id
+
+Ref: PlayerType.warCompositionId > WarComposition.id
+
+Ref: Role.playerId > Player.id
