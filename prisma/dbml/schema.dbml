@@ -2,85 +2,44 @@
 //// THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 //// ------------------------------------------------------
 
-Table Account {
-  id String [pk]
-  userId String [not null]
-  type String [not null]
-  provider String [not null]
-  providerAccountId String [not null]
-  refresh_token String
-  access_token String
-  expires_at Int
-  token_type String
-  scope String
-  id_token String
-  session_state String
-  user User [not null]
-
-  indexes {
-    (provider, providerAccountId) [unique]
-  }
-}
-
-Table Session {
-  id String [pk]
-  sessionToken String [unique, not null]
-  userId String [not null]
-  expires DateTime [not null]
-  user User [not null]
+Table status {
+  id Int [pk, increment]
+  ticket Boolean [not null]
+  discord Boolean [not null]
+  gear_check Boolean [not null]
+  pov Boolean [not null]
+  status_ticket String
+  Player player [not null]
 }
 
 Table User {
-  id String [pk]
-  name String
-  email String [unique]
-  emailVerified DateTime
-  image String
-  accounts Account [not null]
-  sessions Session [not null]
-  Roaster Roaster [not null]
+  id Int [pk, increment]
+  username String [not null]
+  email String [not null]
+  created_at DateTime [default: `now()`, not null]
+  updated_at DateTime [not null]
 }
 
-Table Player {
+Table player {
   id Int [pk, increment]
-  name String [not null]
-  level Int [not null]
-  role Role [not null]
-  role1 Role1
-  spec Spec [not null]
-  poids Poids [not null]
-  runeCoeur RuneCoeur [not null]
-  ticket Boolean [not null, default: true]
-  discord Boolean [not null, default: false]
-  gearCheck Boolean [not null, default: false]
-  pov Boolean [not null, default: false]
-  statusTicket String
-  positionWar PositionWar
-  warXP String
-  enPause Boolean [not null, default: true]
-  commentaireAbs String
-  joursPresence String
-  pasDeWar Boolean [not null, default: false]
-  merc Boolean [not null, default: false]
-  roaster Roaster [not null]
-  roasterId Int [not null]
-}
-
-Table Roaster {
-  id Int [pk, increment]
-  name String [not null]
+  user_id Int [not null]
+  character_name String [not null]
   level Int [not null]
   faction Faction [not null]
-  factionId Int [not null]
-  players Player [not null]
-  ownerId String [not null]
-  owner User [not null]
+  roles Role[] [not null]
+  weight Weight [not null]
+  rune_coeur Rune_Coeur [not null]
+  spec Spec [not null]
+  status status [not null]
+  status_id Int [not null]
+  created_at DateTime [default: `now()`, not null]
+  updated_at DateTime [not null]
 }
 
-Table Faction {
-  id Int [pk, increment]
-  name String [not null]
-  roasters Roaster [not null]
+Enum Faction {
+  Marauders
+  Syndicate
+  Covenant
 }
 
 Enum Role {
@@ -100,53 +59,23 @@ Enum Spec {
   GS_HA
   GS_Spear
   SnS_Spear
+  Spear_HA
+  GA_BB
   Healer_DST
   Healer_Clap
-  Fire_Ice
-  BB_IG
-  Fire_BB
-  Fire_Rapier
-  Bow
-  Musket
-  IG_VG
-  Flail_VG
-  SnS_IG_Tank
-  IG_VG_Tank
 }
 
-Enum Poids {
+Enum Weight {
+  Light
   Medium
   Heavy
-  Light
 }
 
-Enum RuneCoeur {
+Enum Rune_Coeur {
   Detonate
   Stoneform
-  Grasping_Vines
-  Bile_Bomb
   Fire_Storm
-  Canon_Blast
+  Grasping_Vines
 }
 
-Enum PositionWar {
-  Cadran
-  Point
-  Flank
-}
-
-Enum Role1 {
-  HRTK
-  Brume
-  KCDQ
-}
-
-Ref: Account.userId > User.id [delete: Cascade]
-
-Ref: Session.userId > User.id [delete: Cascade]
-
-Ref: Player.roasterId > Roaster.id
-
-Ref: Roaster.factionId > Faction.id
-
-Ref: Roaster.ownerId > User.id
+Ref: player.status_id > status.id

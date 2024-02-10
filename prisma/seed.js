@@ -1,69 +1,117 @@
-import { PrismaClient } from '@prisma/client';
+import { faker } from "@faker-js/faker";
+import {
+  Faction,
+  PrismaClient,
+  Role,
+  Rune_Coeur,
+  Spec,
+  Weight,
+} from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-async function main() {
-  // Seed your database with initial data here
+function getRandomFromArray(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+async function seed() {
   try {
-    // Example seed data for User model
-    const user = await prisma.user.upsert({
-      where: { id: "1" }, // Replace 1 with the existing user ID from the database
-      update: {email: 'john1@example.com',},
-      create: {
-        name: 'John Doe',
-        // email: 'john1@example.com',
-        emailVerified: new Date(),
-        image: 'https://example.com/profile.jpg',
-        // Add more fields as needed
-      },
-    });
+    // Seed assign to player
+    const factionList = [
+      Faction.Covenant,
+      Faction.Marauders,
+      Faction.Syndicate,
+    ];
+    const roleList = [
+      Role.Bruiser,
+      Role.Disrupter,
+      Role.Heal,
+      Role.Mage,
+      Role.Ranged,
+      Role.Support,
+      Role.Tank,
+      Role.zzz_lvling,
+    ];
+    const weightList = [Weight.Heavy, Weight.Light, Weight.Medium];
+    const rune_coeurList = [
+      Rune_Coeur.Detonate,
+      Rune_Coeur.Fire_Storm,
+      Rune_Coeur.Grasping_Vines,
+      Rune_Coeur.Stoneform,
+    ];
+    const specList = [
+      Spec.GA_WH,
+      Spec.SnS_GS,
+      Spec.GS_HA,
+      Spec.GS_Spear,
+      Spec.SnS_Spear,
+      Spec.Spear_HA,
+      Spec.GA_BB,
+      Spec.Healer_DST,
+      Spec.Healer_Clap,
+    ];
 
-    // Example seed data for Account model
-    await prisma.account.upsert({
-      where: { userId: user.id, id: "1" }, // Replace 1 with the existing user ID from the database
-      update: {},
-      create: {
-        userId: user.id, // Replace 1 with an existing user ID from the database
-        type: 'type_1',
-        provider: 'provider_1',
-        providerAccountId: 'provider_account_id_1',
-        // Add more fields as needed
-      },
-    });
+    // Seed additional users
+    for (let i = 0; i < 10; i++) {
+      await prisma.user.upsert({
+        where: { id: i },
+        update: {},
+        create: {
+          id: i,
+          username: faker.internet.userName(),
+          email: faker.internet.email(),
+        },
+      });
 
-    // Add more seed data for other models as needed
-    // Example seed data for Player model
-    const player = await prisma.player.upsert({
-      where: { id: 1 },
-      update: {},
-      create: {
-        name: 'Player Name',
-        level: 50, // Adjust level as needed
-        role: 'Mage', // Adjust role as needed
-        role1: 'Brume', // Adjust role1 as needed
-        spec: 'Fire_Ice', // Adjust spec as needed
-        poids: 'Medium', // Adjust poids as needed
-        runeCoeur: 'Detonate', // Adjust runeCoeur as needed
-        ticket: true,
-        discord: false,
-        gearCheck: false,
-        pov: false,
-        enPause: true,
-        pasDeWar: false,
-        merc: false,
-        roasterId: 1, // Adjust roasterId as needed
-      },
-    });
-    console.log('Seed data inserted successfully.');
+      await prisma.player.upsert({
+        where: { id: i },
+        update: {},
+        create: {
+          user_id: i,
+          character_name: faker.person.firstName(),
+          level: faker.number.int({ min: 1, max: 50 }),
+          faction: getRandomFromArray(factionList),
+          roles: [getRandomFromArray(roleList)],
+          weight: getRandomFromArray(weightList),
+          rune_coeur: getRandomFromArray(rune_coeurList),
+          spec: getRandomFromArray(specList),
+          status: {
+            create: {
+              ticket: getRandomFromArray([true, false]),
+              discord: getRandomFromArray([true, false]),
+              gear_check: getRandomFromArray([true, false]),
+              pov: getRandomFromArray([true, false]),
+              status_ticket: getRandomFromArray(["ok", "nok"]),
+            },
+          },
+        },
+      });
+    }
+
+    // Seed the Player table
+    // await prisma.player.upsert({
+    //   where: { id: 1 },
+    //   update: {},
+    //   create: {
+    //     id: 1,
+    //     user_id: 1,
+    //     character_name: faker.name.findName(),
+    //     level: faker.datatype.number(),
+    //     faction: faker.random.arrayElement(['Marauders', 'Syndicate', 'Covenant']) as Faction,
+    //     role: [faker.random.arrayElement(['Bruiser', 'Disrupter', 'Heal', 'Mage', 'Ranged', 'Support', 'Tank', 'zzz_lvling'])] as Role[],
+    //     weight: faker.random.arrayElement(['Light', 'Medium', 'Heavy']) as Weight,
+    //     rune_coeur: faker.random.arrayElement(['Detonate', 'Stoneform', 'Fire_Storm', 'Grasping_Vines']) as Rune_Coeur,
+    //     spec: faker.random.arrayElement(['GA_WH', 'SnS_GS', 'GS_HA', 'GS_Spear', 'SnS_Spear', 'Spear_HA', 'GA_BB', 'Healer_DST', 'Healer_Clap']) as Spec,
+    //     status_id: 1,
+    //   },
+    // });
+
+    console.log("Database seeded successfully!");
   } catch (error) {
-    console.error('Error seeding data:', error);
+    console.error("Error seeding database:", error);
   } finally {
     await prisma.$disconnect();
   }
 }
 
-main()
-  .catch((e) => console.error(e))
-  .finally(async () => {
-    await prisma.$disconnect();
-  });
+seed();
