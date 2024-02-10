@@ -1,8 +1,18 @@
 "use client";
 import { Checkbox } from "@/components/ui/checkbox";
+import { generateColumns } from "@/lib/utils";
+import { User } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
-import { User } from "constants/data";
 import { CellAction } from "./cell-action";
+
+const headers = [
+  "id",
+  "username",
+  "email",
+  "created_at",
+  "updated_at",
+  "player",
+]
 
 export const columns: ColumnDef<User>[] = [
   {
@@ -24,22 +34,7 @@ export const columns: ColumnDef<User>[] = [
     enableSorting: false,
     enableHiding: false,
   },
-  {
-    accessorKey: "name",
-    header: "NAME",
-  },
-  {
-    accessorKey: "company",
-    header: "COMPANY",
-  },
-  {
-    accessorKey: "role",
-    header: "ROLE",
-  },
-  {
-    accessorKey: "status",
-    header: "STATUS",
-  },
+  ...generateColumns(headers),
   {
     id: "actions",
     cell: ({ row }) => <CellAction data={row.original} />,
