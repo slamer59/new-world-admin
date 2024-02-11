@@ -30,3 +30,9 @@ Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/ver
 
 ## New World Doc
 https://new-world.guide/char-builds/s/page/1?role=all
+
+https://github.com/pantharshit00/prisma-docs-generator
+
+https://github.com/vantezzen/auto-form
+
+https://github.com/safak/nextadmin/tree/completed
