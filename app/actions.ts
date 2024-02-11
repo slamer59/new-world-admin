@@ -43,7 +43,10 @@ export async function createPlayerAction(id, formData) {
   try {
     await createPlayer(id, formData)
     // revalidatePath("/dashboard/player")
+    console.log("🚀 ~ updatePlayerAction ~ id, formData", id, formData)
+
     redirect("/dashboard/player")
+
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
       throw new Error("Error creating player", e)
@@ -54,8 +57,11 @@ export async function createPlayerAction(id, formData) {
 export async function updatePlayerAction(id: int, formData) {
   try {
     await updatePlayer(id, formData)
+    console.log("🚀 ~ updatePlayerAction ~ id, formData", id, formData)
     // revalidatePath("/dashboard/player")
     redirect("/dashboard/player")
+
+    console.log("🚀 ~ updatePlayerAction ~ id, formData", id, formData)
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
       // The .code property can be accessed in a type-safe manner

@@ -80,6 +80,7 @@ export async function createPlayer(id: number, data) {
 }
 
 export async function updatePlayer(id: number, data) {
+    console.log("🚀 ~ updatePlayer ~ data:", data)
     try {
         const response = await prisma.player.update(
             {
