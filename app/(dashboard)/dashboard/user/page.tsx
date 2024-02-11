@@ -1,17 +1,11 @@
 import BreadCrumb from "@/components/breadcrumb";
 import { UserClient } from "@/components/tables/user-tables/client";
-import prisma from "@/lib/prisma";
+import { getUsers } from "@/lib/user";
 
 const breadcrumbItems = [{ title: "User", link: "/dashboard/user" }];
 
-async function getUsers() {
-  const data = await prisma.user.findMany();
-  return data;
-}
-
 export default async function page() {
   const users = await getUsers();
-  console.log("🚀 ~ page ~ users:", users)
 
   return (
     <>
