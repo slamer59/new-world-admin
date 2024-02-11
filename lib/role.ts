@@ -1,30 +1,30 @@
 import prisma from "./prisma";
 
 
-export async function getUsers() {
+export async function getRoles() {
     try {
-        const data = await prisma.user.findMany();
+        const data = await prisma.role.findMany();
         return data
     } catch (error) {
         return { error }
     }
 }
 
-export async function createUser(title: string) {
+export async function createRole(title: string) {
     try {
-        const data = await prisma.user.create({ data: { title } })
+        const data = await prisma.role.create({ data: { title } })
         return data
     } catch (error) {
         return { error }
     }
 }
 
-export async function updateUser(id: number, formData: any) {
+export async function updateRole(id: number, formData: any) {
     try {
-        const data = await prisma.user.update({
+        const data = await prisma.role.update({
             where: { id },
             data: {
-                name: formData.name,
+                rolename: formData.rolename,
                 email: formData.email,
                 player: {
                     connect: {
@@ -40,22 +40,22 @@ export async function updateUser(id: number, formData: any) {
     }
 }
 
-export async function deleteUserById(id: number) {
+export async function deleteRoleById(id: number) {
     try {
-        const data = await prisma.user.delete({ where: { id } })
+        const data = await prisma.role.delete({ where: { id } })
         return data
     } catch (error) {
         return { error }
     }
 }
 
-export async function getUserById(id: number) {
+export async function getRoleById(id: number) {
     try {
-        const data = await prisma.user.findUnique({
+        const data = await prisma.role.findUnique({
             where: { id },
             select: {
                 id: true,
-                name: true,
+                rolename: true,
                 email: true,
                 player: {
                     select: {
@@ -74,10 +74,10 @@ export async function getUserById(id: number) {
 }
 
 // export const authenticate = async (prevState, formData) => {
-//     const { name, password } = Object.fromEntries(formData);
+//     const { rolename, password } = Object.fromEntries(formData);
 
 //     try {
-//         await signIn("credentials", { name, password });
+//         await signIn("credentials", { rolename, password });
 //     } catch (err) {
 //         if (err.message.includes("CredentialsSignin")) {
 //             return "Wrong Credentials";

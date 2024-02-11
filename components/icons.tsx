@@ -23,16 +23,17 @@ import {
   Plus,
   Settings,
   SunMedium,
+  SwordIcon,
   Trash,
   Twitter,
   User,
   User2Icon,
   UserX2Icon,
-  X,
+  X
 } from "lucide-react";
 
 export type Icon = LucideIcon;
-
+// https://lucide.dev/icons/arrow-left-to-line?search=player
 export const Icons = {
   dashboard: LayoutDashboardIcon,
   logo: Command,
@@ -44,7 +45,8 @@ export const Icons = {
   chevronLeft: ChevronLeft,
   chevronRight: ChevronRight,
   trash: Trash,
-  employee: UserX2Icon,
+  role: UserX2Icon,
+  player: SwordIcon,
   post: FileText,
   page: File,
   media: Image,

@@ -1,8 +1,8 @@
 import * as z from "zod"
 import * as imports from "../null"
-import { CompletePlayer, relatedPlayerModel } from "./index"
+import { CompletePlayer, RelatedPlayerModel } from "./index"
 
-export const statusModel = z.object({
+export const StatusModel = z.object({
   id: z.number().int(),
   ticket: z.boolean(),
   discord: z.boolean(),
@@ -13,15 +13,15 @@ export const statusModel = z.object({
   updated_at: z.date(),
 })
 
-export interface CompleteStatus extends z.infer<typeof statusModel> {
+export interface CompleteStatus extends z.infer<typeof StatusModel> {
   player: CompletePlayer[]
 }
 
 /**
- * relatedStatusModel contains all relations on your model in addition to the scalars
+ * RelatedStatusModel contains all relations on your model in addition to the scalars
  *
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
-export const relatedStatusModel: z.ZodSchema<CompleteStatus> = z.lazy(() => statusModel.extend({
-  player: relatedPlayerModel.array(),
+export const RelatedStatusModel: z.ZodSchema<CompleteStatus> = z.lazy(() => StatusModel.extend({
+  player: RelatedPlayerModel.array(),
 }))

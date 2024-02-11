@@ -29,7 +29,7 @@ export function hasDraggableData<T extends Active | Over>(
 }
 
 export function generateColumns(columnList: string[]): { accessorKey: string; header: string }[] {
-  console.log("🚀 ~ generateColumns ~ columnList:", columnList);
+
   return columnList.map((column: string) => {
     return { accessorKey: column, header: column.toUpperCase() } as { accessorKey: string; header: string };
   });

@@ -1,6 +1,5 @@
 "use client"
 
-import { updateUserAction } from "@/app/_action"
 import { Button } from "@/components/ui/button"
 import {
     Form,
@@ -45,7 +44,7 @@ export default function UserForm({ user, players }) {
     })
     // Submit handler
     async function onSubmit(data) {
-        await updateUserAction(user.id, data)
+
         toast({
             title: "Your todo has been created.",
         })

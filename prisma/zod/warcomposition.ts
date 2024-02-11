@@ -1,9 +1,9 @@
 import * as z from "zod"
 import * as imports from "../null"
 import { WarPosition } from "@prisma/client"
-import { CompletePlayer, relatedPlayerModel, CompletePlayerType, relatedPlayerTypeModel } from "./index"
+import { CompletePlayer, RelatedPlayerModel, CompletePlayerType, RelatedPlayerTypeModel } from "./index"
 
-export const warCompositionModel = z.object({
+export const WarCompositionModel = z.object({
   id: z.number().int(),
   name: z.string(),
   position: z.nativeEnum(WarPosition),
@@ -11,17 +11,17 @@ export const warCompositionModel = z.object({
   updated_at: z.date(),
 })
 
-export interface CompleteWarComposition extends z.infer<typeof warCompositionModel> {
+export interface CompleteWarComposition extends z.infer<typeof WarCompositionModel> {
   slot: CompletePlayer[]
   playerType: CompletePlayerType[]
 }
 
 /**
- * relatedWarCompositionModel contains all relations on your model in addition to the scalars
+ * RelatedWarCompositionModel contains all relations on your model in addition to the scalars
  *
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
-export const relatedWarCompositionModel: z.ZodSchema<CompleteWarComposition> = z.lazy(() => warCompositionModel.extend({
-  slot: relatedPlayerModel.array(),
-  playerType: relatedPlayerTypeModel.array(),
+export const RelatedWarCompositionModel: z.ZodSchema<CompleteWarComposition> = z.lazy(() => WarCompositionModel.extend({
+  slot: RelatedPlayerModel.array(),
+  playerType: RelatedPlayerTypeModel.array(),
 }))

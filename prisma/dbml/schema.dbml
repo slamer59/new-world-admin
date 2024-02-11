@@ -4,7 +4,7 @@
 
 Table User {
   id Int [pk, increment]
-  username String [not null]
+  name String [not null]
   email String [not null]
   created_at DateTime [default: `now()`, not null]
   updated_at DateTime [not null]
@@ -37,6 +37,7 @@ Table PlayerType {
 
 Table Role {
   id Int [pk, increment]
+  name String [not null]
   role RoleType [not null]
   rune Rune [not null]
   weapon Weapon [not null]

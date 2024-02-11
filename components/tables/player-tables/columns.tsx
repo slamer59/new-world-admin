@@ -1,20 +1,22 @@
 "use client";
 import { Checkbox } from "@/components/ui/checkbox";
 import { generateColumns } from "@/lib/utils";
-import { User } from "@prisma/client";
+import { Player } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
 import { CellAction } from "./cell-action";
 
 const headers = [
   "id",
   "name",
-  "email",
+  "user",
+  "roles",
+  "status",
   "created_at",
   "updated_at",
-  "player",
+  "warComposition",
 ]
 
-export const columns: ColumnDef<User>[] = [
+export const columns: ColumnDef<Player>[] = [
   {
     id: "select",
     header: ({ table }) => (

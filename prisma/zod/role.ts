@@ -1,10 +1,11 @@
 import * as z from "zod"
 import * as imports from "../null"
 import { RoleType, Rune, Weapon, WeightLimit } from "@prisma/client"
-import { CompletePlayer, relatedPlayerModel } from "./index"
+import { CompletePlayer, RelatedPlayerModel } from "./index"
 
-export const roleModel = z.object({
+export const RoleModel = z.object({
   id: z.number().int(),
+  name: z.string(),
   role: z.nativeEnum(RoleType),
   rune: z.nativeEnum(Rune),
   weapon: z.nativeEnum(Weapon),
@@ -14,15 +15,15 @@ export const roleModel = z.object({
   updated_at: z.date(),
 })
 
-export interface CompleteRole extends z.infer<typeof roleModel> {
+export interface CompleteRole extends z.infer<typeof RoleModel> {
   player?: CompletePlayer | null
 }
 
 /**
- * relatedRoleModel contains all relations on your model in addition to the scalars
+ * RelatedRoleModel contains all relations on your model in addition to the scalars
  *
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
-export const relatedRoleModel: z.ZodSchema<CompleteRole> = z.lazy(() => roleModel.extend({
-  player: relatedPlayerModel.nullish(),
+export const RelatedRoleModel: z.ZodSchema<CompleteRole> = z.lazy(() => RoleModel.extend({
+  player: RelatedPlayerModel.nullish(),
 }))
