@@ -1,18 +1,23 @@
 'use server'
 
-import { updatePlayer } from "@/lib/player"
+import { createPlayer, updatePlayer } from "@/lib/player"
 import { createRole, updateRole } from "@/lib/role"
-import { deleteUserById, updateUser } from "@/lib/user"
+import { createUser, deleteUserById, updateUser } from "@/lib/user"
 import { Prisma } from "@prisma/client"
-import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
 
 
-// export async function createUserAction(formData) {
-//   await createUser(title)
-//   revalidatePath("/dashboard/user")
-//   redirect("/dashboard/user")
-// }
+export async function createUserAction(id, formData) {
+  try {
+    await createUser(id, formData)
+    // revalidatePath("/dashboard/user")
+    redirect("/dashboard/user")
+  } catch (e) {
+    if (e instanceof Prisma.PrismaClientKnownRequestError) {
+      throw new Error("Error creating user", e)
+    }
+  }
+}
 
 export async function updateUserAction(id: int, formData) {
   try {
@@ -21,26 +26,35 @@ export async function updateUserAction(id: int, formData) {
     if (response.error) {
       throw new Error("Error updating user", response.error)
     }
-    revalidatePath("/dashboard/user")
+    // revalidatePath("/dashboard/user")
     redirect("/dashboard/user")
   } catch (error) {
     throw new Error("Error updating user", error)
   }
-
-
-
 }
 
 export async function deleteUserAction(formData) {
   await deleteUserById(formData.id)
-  revalidatePath("/dashboard/user")
+  // revalidatePath("/dashboard/user")
   redirect("/dashboard/user")
+}
+
+export async function createPlayerAction(id, formData) {
+  try {
+    await createPlayer(id, formData)
+    // revalidatePath("/dashboard/player")
+    redirect("/dashboard/player")
+  } catch (e) {
+    if (e instanceof Prisma.PrismaClientKnownRequestError) {
+      throw new Error("Error creating player", e)
+    }
+  }
 }
 
 export async function updatePlayerAction(id: int, formData) {
   try {
     await updatePlayer(id, formData)
-    revalidatePath("/dashboard/player")
+    // revalidatePath("/dashboard/player")
     redirect("/dashboard/player")
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
@@ -60,7 +74,7 @@ export async function updatePlayerAction(id: int, formData) {
 export async function createRoleAction(id, formData) {
   try {
     const response = await createRole(id, formData)
-    revalidatePath("/dashboard/role")
+    // revalidatePath("/dashboard/role")
     redirect("/dashboard/role")
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
@@ -73,7 +87,7 @@ export async function updateRoleAction(id: int, formData) {
 
   try {
     await updateRole(id, formData)
-    revalidatePath("/dashboard/role")
+    // revalidatePath("/dashboard/role")
     redirect("/dashboard/role")
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {

@@ -1,6 +1,6 @@
 "use client"
 
-import { updateUserAction } from "@/app/_action"
+import { createUserAction, updateUserAction } from "@/app/actions"
 import { Button } from "@/components/ui/button"
 import {
     Form,
@@ -17,9 +17,8 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 
-
-
 export default function UserForm({ user, players }) {
+
     const { toast } = useToast()
 
     // 1. Zod validation 
@@ -28,7 +27,7 @@ export default function UserForm({ user, players }) {
         email: z.string().email(),
         // password: z.string().min(8).max(50),
         // confirmPassword: z.string().min(8).max(50),
-        player: z.string()
+        // player: z.string()
         //.refine(value => players.some(player => player.name === value), {            message: "Invalid player name"    })
 
     })
@@ -37,18 +36,27 @@ export default function UserForm({ user, players }) {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            name: user.name || "",
-            email: user.email || "",
+            name: user?.name || "",
+            email: user?.email || "",
             // password: "",
             // confirmPassword: "",
         },
     })
     // Submit handler
     async function onSubmit(data) {
-        await updateUserAction(user.id, data)
-        toast({
-            title: "Your todo has been created.",
-        })
+        if (user?.createId) {
+
+            await createUserAction(user.createId, data)
+            toast({
+                title: "Your User has been created.",
+            })
+        } else {
+            await updateUserAction(user.id, data)
+
+            toast({
+                title: "Your User has been updated.",
+            })
+        }
         form.reset()
     }
     return (
@@ -69,7 +77,7 @@ export default function UserForm({ user, players }) {
                                         <FormLabel>Username</FormLabel>
                                         <FormControl>
                                             <Input
-                                                placeholder={`${user.name || "Enter your name"}`}
+                                                placeholder={`${user?.name || "Enter your name"}`}
                                                 {...field}
                                             />
                                         </FormControl>
@@ -88,7 +96,7 @@ export default function UserForm({ user, players }) {
                                         <FormLabel>Email</FormLabel>
                                         <FormControl>
                                             <Input
-                                                placeholder={`${user.email || "Enter your email"}`}
+                                                placeholder={`${user?.email || "Enter your email"}`}
                                                 {...field} />
                                         </FormControl>
                                         <FormDescription>

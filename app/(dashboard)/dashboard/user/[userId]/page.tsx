@@ -13,7 +13,13 @@ export default async function Page({ params }: { params: { userId: string } }) {
   // 1. Get all players
   const players = await getPlayers()
   // 2. Get user by id
-  const user = await getUserById(parseInt(params.userId))
+  let user = await getUserById(parseInt(params.userId))
+
+  if (!user) {
+    user = {
+      createId: parseInt(params.userId)
+    }
+  }
 
   return (
     <ScrollArea className="h-full">

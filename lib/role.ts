@@ -78,9 +78,6 @@ export async function createRole(id: number, data) {
     }
 }
 
-
-
-
 export async function updateRole(id: number, data) {
     try {
         const response = await prisma.role.update(
@@ -102,5 +99,3 @@ export async function updateRole(id: number, data) {
         throw e
     }
 }
-
-

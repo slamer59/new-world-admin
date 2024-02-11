@@ -24,7 +24,7 @@ export const UserClient = ({ data }) => {
         />
         <Button
           className="text-xs md:text-sm"
-          onClick={() => router.push(`/dashboard/role/${nextId}`)}
+          onClick={() => router.push(`/dashboard/user/${nextId}`)}
         >
           <Plus className="mr-2 h-4 w-4" /> Add New
         </Button>

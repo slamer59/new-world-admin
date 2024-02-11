@@ -1,6 +1,6 @@
 "use client"
 
-import { updatePlayerAction } from "@/app/_action"
+import { createPlayerAction, updatePlayerAction } from "@/app/actions"
 import { Button } from "@/components/ui/button"
 import {
     Form,
@@ -29,16 +29,24 @@ export default function PlayerForm({ player }) {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            name: player.name || "",
+            name: player?.name || "",
         },
     })
     // Submit handler
     async function onSubmit(data) {
-        await updatePlayerAction(player.id, data)
+        if (player?.createId) {
+            console.log("🚀 ~ onSubmit ~ player?.createId:", player?.createId)
+            await createPlayerAction(player.createId, data)
+            toast({
+                title: "Your Player has been created.",
+            })
+        } else {
+            await updatePlayerAction(player?.id, data)
 
-        toast({
-            title: "Your player name has been updated.",
-        })
+            toast({
+                title: "Your player has been updated.",
+            })
+        }
         form.reset()
     }
     return (
@@ -59,7 +67,7 @@ export default function PlayerForm({ player }) {
                                         <FormLabel>Player Name</FormLabel>
                                         <FormControl>
                                             <Input
-                                                placeholder={`${player.name || "Enter your player name"}`}
+                                                placeholder={`${player?.name || "Enter your player name"}`}
                                                 {...field}
                                             />
                                         </FormControl>

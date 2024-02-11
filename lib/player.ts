@@ -29,7 +29,7 @@ export async function getPlayersDetails() {
                     roles: {
                         select: {
                             // id: true,
-                            role: true,
+                            roleType: true,
                         }
                     },
                     status: true,
@@ -61,6 +61,23 @@ export async function getPlayerById(id: number) {
 
 }
 
+export async function createPlayer(id: number, data) {
+    try {
+        const response = await prisma.player.create({
+            data: {
+                id,
+                ...data
+            }
+        })
+        return response;
+    } catch (e) {
+        if (e instanceof Prisma.PrismaClientKnownRequestError) {
+            // The .code property can be accessed in a type-safe manner
+            throw new Error("Error creating player", e)
+        }
+        throw e
+    }
+}
 
 export async function updatePlayer(id: number, data) {
     try {
@@ -83,3 +100,5 @@ export async function updatePlayer(id: number, data) {
         throw e
     }
 }
+
+

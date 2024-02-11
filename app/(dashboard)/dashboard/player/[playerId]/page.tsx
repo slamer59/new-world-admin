@@ -9,7 +9,12 @@ export default async function Page({ params }: { params: { userId: string } }) {
     { title: "Create", link: "/dashboard/player/create" },
   ];
   // 2. Get user by id
-  const player = await getPlayerById(parseInt(params.playerId))
+  let player = await getPlayerById(parseInt(params.playerId))
+  if (!player) {
+    player = {
+      createId: parseInt(params.playerId)
+    }
+  }
 
   return (
     <ScrollArea className="h-full">

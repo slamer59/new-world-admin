@@ -1,6 +1,6 @@
 "use client"
 
-import { createRoleAction, updateRoleAction } from "@/app/_action"
+import { createRoleAction, updateRoleAction } from "@/app/actions"
 import { Button } from "@/components/ui/button"
 import {
     Form,

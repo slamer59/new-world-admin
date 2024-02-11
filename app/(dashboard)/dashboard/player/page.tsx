@@ -14,7 +14,6 @@ export default async function page() {
     player.user = player.user.name
     player.roles = player.roles.map((role) => role.name).join(", ")
     player.status = player.status.id;
-    // Created at format to fr-Fr
     player.created_at = formatDate(player.created_at)
     player.updated_at = formatDate(player.updated_at)
   });

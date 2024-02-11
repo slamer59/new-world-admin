@@ -1,3 +1,4 @@
+import { Prisma } from "@prisma/client";
 import prisma from "./prisma";
 
 
@@ -10,12 +11,21 @@ export async function getUsers() {
     }
 }
 
-export async function createUser(title: string) {
+export async function createUser(id: number, data) {
     try {
-        const data = await prisma.user.create({ data: { title } })
-        return data
-    } catch (error) {
-        return { error }
+        const response = await prisma.user.create({
+            data: {
+                id,
+                ...data
+            }
+        })
+        return response;
+    } catch (e) {
+        if (e instanceof Prisma.PrismaClientKnownRequestError) {
+            // The .code property can be accessed in a type-safe manner
+            throw new Error("Error creating user", e)
+        }
+        throw e
     }
 }
 
