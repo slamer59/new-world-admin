@@ -34,3 +34,8 @@ export function generateColumns(columnList: string[]): { accessorKey: string; he
     return { accessorKey: column, header: column.toUpperCase() } as { accessorKey: string; header: string };
   });
 }
+
+export function formatDate(date) {
+  const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: false }
+  return new Date(date).toLocaleDateString("fr-FR", options)
+}

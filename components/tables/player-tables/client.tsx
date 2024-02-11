@@ -15,6 +15,7 @@ import { columns } from "./columns";
 export const PlayerClient = ({ data }) => {
 
   const router = useRouter();
+  const nextId = Math.max(...data.map((o: { id: number }) => o.id)) + 1;
 
   return (
     <>
@@ -25,7 +26,7 @@ export const PlayerClient = ({ data }) => {
         />
         <Button
           className="text-xs md:text-sm"
-          onClick={() => ropplayeruter.push(`/dashboard/player/new`)}
+          onClick={() => router.push(`/dashboard/role/${nextId}`)}
         >
           <Plus className="mr-2 h-4 w-4" /> Add New
         </Button>

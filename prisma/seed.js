@@ -1,12 +1,12 @@
 import { faker } from "@faker-js/faker";
 import {
-    Level,
-    PrismaClient,
-    RoleType,
-    Rune,
-    WarPosition,
-    Weapon,
-    WeightLimit,
+  Level,
+  PrismaClient,
+  RoleType,
+  Rune,
+  WarPosition,
+  Weapon,
+  WeightLimit,
 } from "@prisma/client";
 
 const prisma = new PrismaClient();
@@ -93,7 +93,7 @@ async function seed() {
         create: {
           id: i,
           name: faker.person.firstName(),
-          role: faker.helpers.arrayElement(roleList),
+          roleType: faker.helpers.arrayElement(roleList),
           rune: faker.helpers.arrayElement(runeList),
           weapon: faker.helpers.arrayElement(weaponList),
           weightLimit: faker.helpers.arrayElement(weightList),
@@ -131,7 +131,7 @@ async function seed() {
       for (let i = 0; i < count; i++) {
         players.push({
           name: faker.person.firstName(),
-          role: faker.helpers.arrayElement(roleList),
+          roleType: faker.helpers.arrayElement(roleList),
           level: faker.helpers.arrayElement(levelList),
         });
       }

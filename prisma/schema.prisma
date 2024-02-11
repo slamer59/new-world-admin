@@ -65,20 +65,19 @@ model Player {
 }
 
 model PlayerType {
-    id         Int      @id @default(autoincrement())
-    name       String
-    role       RoleType
-    level      Level    @default(rookie)
-    created_at DateTime @default(now())
-    updated_at DateTime @updatedAt
-
+    id             Int              @id @default(autoincrement())
+    name           String
+    roleType       RoleType
+    level          Level            @default(rookie)
+    created_at     DateTime         @default(now())
+    updated_at     DateTime         @updatedAt
     warComposition WarComposition[]
 }
 
 model Role {
     id          Int         @id @default(autoincrement())
     name        String
-    role        RoleType
+    roleType    RoleType
     rune        Rune
     weapon      Weapon
     weightLimit WeightLimit

@@ -1,4 +1,5 @@
 "use client";
+
 import { Checkbox } from "@/components/ui/checkbox";
 import { generateColumns } from "@/lib/utils";
 import { Role } from "@prisma/client";
@@ -7,11 +8,14 @@ import { CellAction } from "./cell-action";
 
 const headers = [
   "id",
-  "rolename",
-  "email",
+  "name",
+  "roleType",
+  "rune",
+  "weapon",
+  "weightLimit",
+  "player",
   "created_at",
   "updated_at",
-  "player",
 ]
 
 export const columns: ColumnDef<Role>[] = [

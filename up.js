@@ -1,45 +1,32 @@
-import { PrismaClient } from '@prisma/client';
+import { faker } from '@faker-js/faker/locale/af_ZA';
 
+// Import the generated Prisma client
+import { PrismaClient } from '@prisma/client';
+// Instantiate Prisma client
 const prisma = new PrismaClient();
 
-async function updateUserPlayerAssociation(userId, playerId) {
+// Create a new role
+async function createRole() {
   try {
-    // Find the user with id = userId
-    const user = await prisma.user.findUnique({
-      where: { id: userId },
-      include: { player: true }, // Include the player relation
-    });
-
-    if (!user) {
-      console.error(`User with id ${userId} not found.`);
-      return;
-    }
-
-    // Find the player with id = playerId
-    const player = await prisma.player.findUnique({
-      where: { id: playerId },
-    });
-
-    if (!player) {
-      console.error(`Player with id ${playerId} not found.`);
-      return;
-    }
-
-    // Update the player association for the user
-    await prisma.user.update({
-      where: { id: userId },
+    const newRole = await prisma.role.create({
       data: {
-        player: { connect: { id: playerId } }, // Connect to the new player
+        id: 200,  
+        name: faker.person.firstName(),
+        roleType: 'Bruiser', // Replace 'Bruiser' with the desired role type
+        rune: "BileBomb",
+        weapon: "Bow",
+        weightLimit: "Heavy" ,
+        // Assign values for other fields as needed
       },
     });
-
-    console.log(`User with id ${userId} is now connected to player with id ${playerId}.`);
+    console.log('Created role:', newRole);
   } catch (error) {
-    console.error('Error updating user-player association:', error);
+    console.error('Error creating role:', error);
   } finally {
-    await prisma.$disconnect(); // Disconnect from the database
+    // Disconnect Prisma client
+    await prisma.$disconnect();
   }
 }
 
-// Usage:
-updateUserPlayerAssociation(1, 4);
+// Call the function to create a new role
+createRole();

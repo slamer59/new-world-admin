@@ -1,25 +1,27 @@
 import BreadCrumb from "@/components/breadcrumb";
-import UserForm from "@/components/forms/user-form";
+import RoleForm from "@/components/forms/role-form";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { getPlayers } from "@/lib/player";
-import { getUserById } from "@/lib/user";
+import { getRoleById } from "@/lib/role";
 
-export default async function Page({ params }: { params: { userId: string } }) {
+export default async function Page({ params }: { params: { roleId: string } }) {
 
   const breadcrumbItems = [
-    { title: "User", link: "/dashboard/user" },
-    { title: "Create", link: "/dashboard/user/create" },
+    { title: "Role", link: "/dashboard/role" },
+    { title: "Create", link: "/dashboard/role/create" },
   ];
-  // 1. Get all players
-  const players = await getPlayers()
-  // 2. Get user by id
-  const user = await getUserById(parseInt(params.userId))
+  // 1. Get role
+  let role = await getRoleById(parseInt(params.roleId))
+  if (!role) {
+    role = {
+      createId: parseInt(params.roleId),
+    }
+  }
 
   return (
     <ScrollArea className="h-full">
       <div className="flex-1 space-y-4 p-5">
         <BreadCrumb items={breadcrumbItems} />
-        <UserForm user={user} players={players} />
+        <RoleForm role={role} />
       </div>
     </ScrollArea>
   );

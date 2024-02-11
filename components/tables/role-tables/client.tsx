@@ -13,8 +13,9 @@ import { columns } from "./columns";
 // }
 
 export const RoleClient = ({ data }) => {
-  const router = useRouter();
 
+  const router = useRouter();
+  const nextId = Math.max(...data.map((o: { id: number }) => o.id)) + 1;
   return (
     <>
       <div className="flex items-start justify-between">
@@ -24,7 +25,7 @@ export const RoleClient = ({ data }) => {
         />
         <Button
           className="text-xs md:text-sm"
-          onClick={() => router.push(`/dashboard/role/new`)}
+          onClick={() => router.push(`/dashboard/role/${nextId}`)}
         >
           <Plus className="mr-2 h-4 w-4" /> Add New
         </Button>

@@ -6,7 +6,7 @@ import { CompletePlayer, RelatedPlayerModel } from "./index"
 export const RoleModel = z.object({
   id: z.number().int(),
   name: z.string(),
-  role: z.nativeEnum(RoleType),
+  roleType: z.nativeEnum(RoleType),
   rune: z.nativeEnum(Rune),
   weapon: z.nativeEnum(Weapon),
   weightLimit: z.nativeEnum(WeightLimit),

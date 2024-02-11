@@ -28,7 +28,7 @@ Table Player {
 Table PlayerType {
   id Int [pk, increment]
   name String [not null]
-  role RoleType [not null]
+  roleType RoleType [not null]
   level Level [not null, default: 'rookie']
   created_at DateTime [default: `now()`, not null]
   updated_at DateTime [not null]
@@ -38,7 +38,7 @@ Table PlayerType {
 Table Role {
   id Int [pk, increment]
   name String [not null]
-  role RoleType [not null]
+  roleType RoleType [not null]
   rune Rune [not null]
   weapon Weapon [not null]
   weightLimit WeightLimit [not null]

@@ -14,7 +14,7 @@ import { columns } from "./columns";
 
 export const UserClient = ({ data }) => {
   const router = useRouter();
-
+  const nextId = Math.max(...data.map((o: { id: number }) => o.id)) + 1;
   return (
     <>
       <div className="flex items-start justify-between">
@@ -24,7 +24,7 @@ export const UserClient = ({ data }) => {
         />
         <Button
           className="text-xs md:text-sm"
-          onClick={() => router.push(`/dashboard/user/new`)}
+          onClick={() => router.push(`/dashboard/role/${nextId}`)}
         >
           <Plus className="mr-2 h-4 w-4" /> Add New
         </Button>

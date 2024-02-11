@@ -1,18 +1,29 @@
 import BreadCrumb from "@/components/breadcrumb";
-import { UserClient } from "@/components/tables/user-tables/client";
-import { getUsers } from "@/lib/user";
+import { RoleClient } from "@/components/tables/role-tables/client";
+import { getRolesDetails } from "@/lib/role";
+import { formatDate } from "@/lib/utils";
 
 const breadcrumbItems = [{ title: "User", link: "/dashboard/user" }];
 
 export default async function page() {
-  const users = await getUsers();
+  const roles = await getRolesDetails()
 
+  // 2. Convert User array, roles array, status to string
+  roles.map((role) => {
+
+    role.player = role?.player?.name
+    // Created at format to fr-Fr
+    role.created_at = formatDate(role.created_at)
+    role.updated_at = formatDate(role.updated_at)
+  }
+  )
   return (
     <>
       <div className="flex-1 space-y-4  p-4 md:p-8 pt-6">
         <BreadCrumb items={breadcrumbItems} />
-        <UserClient data={users} />
+        <RoleClient data={roles} />
       </div>
     </>
   );
 }
+

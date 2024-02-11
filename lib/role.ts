@@ -1,87 +1,106 @@
+import { Prisma } from "@prisma/client";
 import prisma from "./prisma";
-
 
 export async function getRoles() {
     try {
-        const data = await prisma.role.findMany();
-        return data
-    } catch (error) {
-        return { error }
-    }
-}
-
-export async function createRole(title: string) {
-    try {
-        const data = await prisma.role.create({ data: { title } })
-        return data
-    } catch (error) {
-        return { error }
-    }
-}
-
-export async function updateRole(id: number, formData: any) {
-    try {
-        const data = await prisma.role.update({
-            where: { id },
-            data: {
-                rolename: formData.rolename,
-                email: formData.email,
-                player: {
-                    connect: {
-                        id: formData.player
-                    }
-                },
+        const data = await prisma.role.findMany(
+            {
+                select: {
+                    id: true,
+                    name: true,
+                }
             }
-        })
-
-        return data
-    } catch (error) {
-        return { error }
+        );
+        return data;
+    } catch (e) {
+        if (e instanceof Prisma.PrismaClientKnownRequestError) {
+            console.error(e);
+        }
+        throw e;
     }
 }
 
-export async function deleteRoleById(id: number) {
+export async function getRolesDetails() {
     try {
-        const data = await prisma.role.delete({ where: { id } })
-        return data
-    } catch (error) {
-        return { error }
+        const data = await prisma.role.findMany(
+            {
+                select: {
+                    id: true,
+                    name: true,
+                    roleType: true,
+                    rune: true,
+                    weapon: true,
+                    weightLimit: true,
+                    player: true,
+                    created_at: true,
+                    updated_at: true,
+                }
+            }
+        );
+        return data;
+    } catch (e) {
+        if (e instanceof Prisma.PrismaClientKnownRequestError) {
+            console.error(e);
+        }
+        throw e;
     }
 }
 
 export async function getRoleById(id: number) {
     try {
-        const data = await prisma.role.findUnique({
-            where: { id },
-            select: {
-                id: true,
-                rolename: true,
-                email: true,
-                player: {
-                    select: {
-                        id: true,
-                        name: true,
-                    }
-                },
-                // createdAt: false,
-                // updatedAt: false
-            }
-        })
-        return data
-    } catch (error) {
-        return { error }
+        const data = await prisma.role.findUnique(
+            { where: { id } }
+        )
+        return data;
+    } catch (e) {
+        if (e instanceof Prisma.PrismaClientKnownRequestError) {
+            console.error(e);
+        }
+        throw e;
     }
 }
 
-// export const authenticate = async (prevState, formData) => {
-//     const { rolename, password } = Object.fromEntries(formData);
+export async function createRole(id: number, data) {
+    try {
+        const response = await prisma.role.create({
+            data: {
+                id,
+                ...data
+            }
+        })
+        return response;
+    } catch (e) {
+        if (e instanceof Prisma.PrismaClientKnownRequestError) {
+            // The .code property can be accessed in a type-safe manner
+            throw new Error("Error creating role", e)
+        }
+        throw e
+    }
+}
 
-//     try {
-//         await signIn("credentials", { rolename, password });
-//     } catch (err) {
-//         if (err.message.includes("CredentialsSignin")) {
-//             return "Wrong Credentials";
-//         }
-//         throw err;
-//     }
-// };
+
+
+
+export async function updateRole(id: number, data) {
+    try {
+        const response = await prisma.role.update(
+            {
+                where: { id },
+                data
+            }
+        )
+        return response;
+    } catch (e) {
+        if (e instanceof Prisma.PrismaClientKnownRequestError) {
+            // The .code property can be accessed in a type-safe manner
+            if (e.code === 'P2002') {
+                console.log(
+                    'There is a unique constraint violation, a new user cannot be created with this email'
+                )
+            }
+        }
+        throw e
+    }
+}
+
+

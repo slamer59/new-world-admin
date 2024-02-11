@@ -1,13 +1,13 @@
 import BreadCrumb from "@/components/breadcrumb";
 import { PlayerClient } from "@/components/tables/player-tables/client";
 import { getPlayersDetails } from "@/lib/player";
+import { formatDate } from "@/lib/utils";
 
 const breadcrumbItems = [{ title: "Player", link: "/dashboard/player" }];
 
 export default async function page() {
   // 1. Get all players
   const players = await getPlayersDetails();
-  console.log("🚀 ~ page ~ players:", players)
 
   // 2. Convert User array, roles array, status to string
   players.map((player) => {
@@ -15,8 +15,8 @@ export default async function page() {
     player.roles = player.roles.map((role) => role.name).join(", ")
     player.status = player.status.id;
     // Created at format to fr-Fr
-    player.createdAt = new Date(player.createdAt).toLocaleString("fr-FR")
-    player.updatedAt = new Date(player.updatedAt).toLocaleString("fr-FR")
+    player.created_at = formatDate(player.created_at)
+    player.updated_at = formatDate(player.updated_at)
   });
 
 

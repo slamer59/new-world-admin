@@ -76,12 +76,12 @@ export const EmployeeForm: React.FC<ProductFormProps> = ({
   const defaultValues = initialData
     ? initialData
     : {
-        name: "",
-        description: "",
-        price: 0,
-        imgUrl: [],
-        category: "",
-      };
+      name: "",
+      description: "",
+      price: 0,
+      imgUrl: [],
+      category: "",
+    };
 
   const form = useForm<ProductFormValues>({
     resolver: zodResolver(formSchema),

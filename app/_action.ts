@@ -1,6 +1,7 @@
 'use server'
 
 import { updatePlayer } from "@/lib/player"
+import { createRole, updateRole } from "@/lib/role"
 import { deleteUserById, updateUser } from "@/lib/user"
 import { Prisma } from "@prisma/client"
 import { revalidatePath } from "next/cache"
@@ -51,5 +52,32 @@ export async function updatePlayerAction(id: int, formData) {
       }
     }
     throw e
+  }
+}
+
+
+// Role
+export async function createRoleAction(id, formData) {
+  try {
+    const response = await createRole(id, formData)
+    revalidatePath("/dashboard/role")
+    redirect("/dashboard/role")
+  } catch (e) {
+    if (e instanceof Prisma.PrismaClientKnownRequestError) {
+      throw new Error("Error creating role", e)
+    }
+  }
+}
+
+export async function updateRoleAction(id: int, formData) {
+
+  try {
+    await updateRole(id, formData)
+    revalidatePath("/dashboard/role")
+    redirect("/dashboard/role")
+  } catch (e) {
+    if (e instanceof Prisma.PrismaClientKnownRequestError) {
+      throw new Error("Error updating role", e)
+    }
   }
 }

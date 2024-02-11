@@ -6,7 +6,7 @@ import { CompleteWarComposition, RelatedWarCompositionModel } from "./index"
 export const PlayerTypeModel = z.object({
   id: z.number().int(),
   name: z.string(),
-  role: z.nativeEnum(RoleType),
+  roleType: z.nativeEnum(RoleType),
   level: z.nativeEnum(Level),
   created_at: z.date(),
   updated_at: z.date(),
