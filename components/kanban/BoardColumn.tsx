@@ -27,10 +27,11 @@ interface BoardColumnProps {
   column: Column;
   tasks: Task[];
   isOverlay?: boolean;
+  children?: React.ReactNode;
   activeDnDColumn?: boolean
 }
 
-export function BoardColumn({ column, tasks, isOverlay, activeDnDColumn }: BoardColumnProps) {
+export function BoardColumn({ column, tasks, isOverlay, children, activeDnDColumn }: BoardColumnProps) {
   const tasksIds = useMemo(() => {
     return tasks.map((task) => task.id);
   }, [tasks]);
@@ -59,7 +60,7 @@ export function BoardColumn({ column, tasks, isOverlay, activeDnDColumn }: Board
   };
 
   const variants = cva(
-    "h-[500px] max-h-[500px] w-[350px] max-w-full bg-primary-foreground flex flex-col flex-shrink-0 snap-center",
+    "h-[1000px] max-h-screen bg-primary-foreground flex flex-col flex-shrink-0 snap-center w-96",
     {
       variants: {
         dragging: {

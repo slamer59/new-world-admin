@@ -1,3 +1,5 @@
+import { DialogPlayerEdit } from "@/components/dialog-edit";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import type { UniqueIdentifier } from "@dnd-kit/core";
@@ -5,7 +7,6 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { cva } from "class-variance-authority";
 import { GripVertical } from "lucide-react";
-import { Badge } from "../ui/badge";
 import { ColumnId } from "./KanbanBoard";
 
 export interface Task {
@@ -76,7 +77,9 @@ export function TaskCard({ task, isOverlay }: TaskCardProps) {
         >
           <span className="sr-only">Move task</span>
           <GripVertical />
+
         </Button>
+        <DialogPlayerEdit playerData={task.playerData} />
         <Badge variant={"outline"} className="ml-auto font-semibold">
           Player
         </Badge>

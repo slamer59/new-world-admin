@@ -25,30 +25,6 @@ import { TaskCard, type Task } from "./TaskCard";
 import { coordinateGetter } from "./multipleContainersKeyboardPreset";
 import { hasDraggableData } from "./utils";
 
-// const defaultCols = [
-//   {
-//     id: "point" as const,
-//     title: "Point",
-//   },
-//   {
-//     id: "cadran" as const,
-//     title: "Cadran",
-//   },
-//   {
-//     id: "flank" as const,
-//     title: "Flank",
-//   },
-// ] satisfies Column[];
-
-// export type ColumnId = (typeof defaultCols)[number]["id"];
-
-// const initialTasks: Task[] = [
-//   {
-//     id: "task1",
-//     columnId: "point",
-//     content: "Colere de iop",
-//   },
-// ];
 export function KanbanBoard({ warCompositions }) {
   const groupedColumns = [{
     id: 1,
@@ -79,23 +55,9 @@ export function KanbanBoard({ warCompositions }) {
       id: `slot-${slot.id}`,
       columnId: `war-${groupedColumnsMap[slot.id - 1]}` as ColumnId,
       content: `<b>${slot.name}</b>`,
+      playerData: slot,
     }))
   );
-  console.log("🚀 ~ initialTasks:", initialTasks)
-  // const defaultCols = warCompositions.map((warCompo) => {
-  //   return {
-  //     id: `war-${warCompo.id}` as ColumnId,
-  //     title: warCompo.name,
-  //   }
-  // }) satisfies Column[];
-
-  // const initialTasks = warCompositions.flatMap((warCompo) =>
-  //   warCompo.slot.map((slot) => ({
-  //     id: `slot-${slot.id}`,
-  //     columnId: `war-${warCompo.id}` as ColumnId,
-  //     content: slot.name,
-  //   }))
-  // );
 
   const [columns, setColumns] = useState<Column[]>(defaultCols);
   const pickedUpTaskColumn = useRef<ColumnId | null>(null);

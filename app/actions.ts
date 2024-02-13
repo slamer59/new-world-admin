@@ -54,14 +54,16 @@ export async function createPlayerAction(id, formData) {
   }
 }
 
-export async function updatePlayerAction(id: int, formData) {
+export async function updatePlayerAction(
+  id: int,
+  formData,
+  redirectPath = "/dashboard/player",
+  revalidateThisPath = "/dashboard/player"
+) {
   try {
     await updatePlayer(id, formData)
-    console.log("🚀 ~ updatePlayerAction ~ id, formData", id, formData)
-    // revalidatePath("/dashboard/player")
-    redirect("/dashboard/player")
-
-    console.log("🚀 ~ updatePlayerAction ~ id, formData", id, formData)
+    // revalidatePath(revalidateThisPath)
+    // redirect(redirectPath)
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
       // The .code property can be accessed in a type-safe manner

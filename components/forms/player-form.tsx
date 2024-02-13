@@ -14,10 +14,12 @@ import {
 import { Input } from "@/components/ui/input"
 import { useToast } from "@/components/ui/use-toast"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 
-export default function PlayerForm({ player }) {
+export default function PlayerForm({ player, redirectPath = "/dashboard/player", revalidateThisPath = "/dashboard/player" }) {
+    const router = useRouter()
     const { toast } = useToast()
     // 1. Zod validation 
 
@@ -35,18 +37,18 @@ export default function PlayerForm({ player }) {
     // Submit handler
     async function onSubmit(data) {
         if (player?.createId) {
-            console.log("🚀 ~ onSubmit ~ player?.createId:", player?.createId)
             await createPlayerAction(player.createId, data)
             toast({
                 title: "Your Player has been created.",
             })
         } else {
-            await updatePlayerAction(player?.id, data)
+            await updatePlayerAction(player?.id, data).
 
-            toast({
-                title: "Your player has been updated.",
-            })
+                toast({
+                    title: "Your player has been updated.",
+                })
         }
+
         form.reset()
     }
     return (
