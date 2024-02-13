@@ -1,7 +1,7 @@
 import * as z from "zod"
-import * as imports from "../null"
+
 import { WarPosition } from "@prisma/client"
-import { CompletePlayer, RelatedPlayerModel, CompletePlayerType, RelatedPlayerTypeModel } from "./index"
+import { CompletePlayer, CompletePlayerType, RelatedPlayerModel, RelatedPlayerTypeModel } from "./index"
 
 export const WarCompositionModel = z.object({
   id: z.number().int(),

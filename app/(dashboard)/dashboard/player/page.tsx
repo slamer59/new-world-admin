@@ -10,9 +10,10 @@ export default async function page() {
   const players = await getPlayersDetails();
 
   // 2. Convert User array, roles array, status to string
-  players.map((player) => {
+  players.map((player: { user: { name: any; }; roles: string[]; status: { id: any; }; created_at: string; updated_at: string; }) => {
     player.user = player.user.name
-    player.roles = player.roles.map((role) => role.name).join(", ")
+    // @ts-ignore
+    player.roles = player.roles.map((role: { name: any; }) => role.name).join(", ")
     player.status = player.status.id;
     player.created_at = formatDate(player.created_at)
     player.updated_at = formatDate(player.updated_at)

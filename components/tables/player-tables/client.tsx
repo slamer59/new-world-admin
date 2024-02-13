@@ -12,7 +12,7 @@ import { columns } from "./columns";
 //   data: Player[];
 // }
 
-export const PlayerClient = ({ data }) => {
+export const PlayerClient = ({ data }: { data: any }) => {
 
   const router = useRouter();
   const nextId = Math.max(...data.map((o: { id: number }) => o.id)) + 1;
@@ -21,7 +21,7 @@ export const PlayerClient = ({ data }) => {
     <>
       <div className="flex items-start justify-between">
         <Heading
-          title={`Players (${data.length})`}
+          title={`Players (${data?.length})`}
           description="Manage players (Client side table functionalities.)"
         />
         <Button

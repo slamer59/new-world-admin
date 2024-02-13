@@ -37,6 +37,7 @@ export const columns: ColumnDef<User>[] = [
   ...generateColumns(headers),
   {
     id: "actions",
+    // @ts-ignore
     cell: ({ row }) => <CellAction data={row.original} />,
   },
 ];

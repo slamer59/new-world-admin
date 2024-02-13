@@ -9,9 +9,11 @@ export default async function Page({ params }: { params: { userId: string } }) {
     { title: "Create", link: "/dashboard/player/create" },
   ];
   // 2. Get user by id
+  // @ts-ignore 
   let player = await getPlayerById(parseInt(params.playerId))
   if (!player) {
     player = {
+      // @ts-ignore
       createId: parseInt(params.playerId)
     }
   }

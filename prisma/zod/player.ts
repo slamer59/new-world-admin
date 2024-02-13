@@ -1,6 +1,5 @@
 import * as z from "zod"
-import * as imports from "../null"
-import { CompleteUser, RelatedUserModel, CompleteRole, RelatedRoleModel, CompleteStatus, RelatedStatusModel, CompleteWarComposition, RelatedWarCompositionModel } from "./index"
+import { CompleteRole, CompleteStatus, CompleteUser, CompleteWarComposition, RelatedRoleModel, RelatedStatusModel, RelatedUserModel, RelatedWarCompositionModel } from "./index"
 
 export const PlayerModel = z.object({
   id: z.number().int(),

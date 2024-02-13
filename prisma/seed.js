@@ -126,6 +126,11 @@ async function seed() {
     }
 
     
+    /**
+     * @param {readonly any[]} roleList
+     * @param {readonly any[]} levelList
+     * @param {number} count
+     */
     function generatePlayers(roleList, levelList, count) {
       const players = [];
       for (let i = 0; i < count; i++) {

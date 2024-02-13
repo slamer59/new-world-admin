@@ -12,7 +12,7 @@ import { columns } from "./columns";
 //   data: Role[];
 // }
 
-export const RoleClient = ({ data }) => {
+export const RoleClient = ({ data }: { data: any }) => {
 
   const router = useRouter();
   const nextId = Math.max(...data.map((o: { id: number }) => o.id)) + 1;

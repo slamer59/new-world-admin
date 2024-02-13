@@ -9,8 +9,7 @@ export default async function page() {
   const roles = await getRolesDetails()
 
   // 2. Convert User array, roles array, status to string
-  roles.map((role) => {
-
+  roles.map((role: { player: { name: any; }; created_at: string; updated_at: string; }) => {
     role.player = role?.player?.name
     // Created at format to fr-Fr
     role.created_at = formatDate(role.created_at)

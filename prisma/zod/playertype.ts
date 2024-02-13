@@ -1,6 +1,6 @@
 import * as z from "zod"
-import * as imports from "../null"
-import { RoleType, Level } from "@prisma/client"
+
+import { Level, RoleType } from "@prisma/client"
 import { CompleteWarComposition, RelatedWarCompositionModel } from "./index"
 
 export const PlayerTypeModel = z.object({

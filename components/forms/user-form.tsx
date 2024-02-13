@@ -17,7 +17,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 
-export default function UserForm({ user, players }) {
+export default function UserForm({ user, players }: { user: any, players: any }) {
 
     const { toast } = useToast()
 
@@ -43,7 +43,7 @@ export default function UserForm({ user, players }) {
         },
     })
     // Submit handler
-    async function onSubmit(data) {
+    async function onSubmit(data: any) {
         if (user?.createId) {
 
             await createUserAction(user.createId, data)

@@ -2,17 +2,18 @@ import { DialogPlayerEdit } from "@/components/dialog-edit";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import type { ColumnId } from "@/lib/store";
 import type { UniqueIdentifier } from "@dnd-kit/core";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { cva } from "class-variance-authority";
 import { GripVertical } from "lucide-react";
-import { ColumnId } from "./KanbanBoard";
 
 export interface Task {
   id: UniqueIdentifier;
   columnId: ColumnId;
   content: string;
+  playerData: string;
 }
 
 interface TaskCardProps {

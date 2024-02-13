@@ -20,7 +20,7 @@ import { RoleType, Rune, Weapon, WeightLimit } from "@prisma/client"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 
-export default function RoleForm({ role }) {
+export default function RoleForm({ role }: { role: any }) {
 
     const { toast } = useToast()
 
@@ -45,7 +45,7 @@ export default function RoleForm({ role }) {
         },
     })
     // Submit handler
-    async function onSubmit(data) {
+    async function onSubmit(data: any) {
         if (role?.createId) {
             await createRoleAction(role.createId, data)
             toast({
@@ -170,9 +170,9 @@ export default function RoleForm({ role }) {
                                                 </SelectTrigger>
                                             </FormControl>
                                             <SelectContent>
-                                                {(Object.keys(WeightLimit).map((weightLimit: keyof typeof WeightLimit) => (
-                                                    <SelectItem key={weightLimit} value={weightLimit}>{weightLimit}</SelectItem>
-                                                )))}
+                                                {(Object.keys(WeightLimit) as Array<keyof typeof WeightLimit>).map((weightLimit: keyof typeof WeightLimit) => (
+                                                    <SelectItem key={weightLimit} value={weightLimit as keyof typeof WeightLimit}>{weightLimit}</SelectItem>
+                                                ))}
                                             </SelectContent>
                                         </Select>
                                     </FormControl>

@@ -7,7 +7,7 @@ import {
 import { usePathname } from "next/navigation"
 import PlayerForm from "./forms/player-form"
 
-export function DialogPlayerEdit({ playerData }) {
+export function DialogPlayerEdit({ playerData }: { playerData: any }) {
     const redirectPath = usePathname()
     console.log("🚀 ~ DialogPlayerEdit ~ redirectPath:", redirectPath)
     return (
@@ -18,8 +18,6 @@ export function DialogPlayerEdit({ playerData }) {
             <DialogContent className="sm:max-w-[425px]">
                 <PlayerForm
                     player={playerData}
-                    redirectPath={redirectPath}
-                    revalidateThisPath={redirectPath}
                 />
             </DialogContent>
         </Dialog>

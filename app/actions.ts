@@ -7,7 +7,7 @@ import { Prisma } from "@prisma/client"
 import { redirect } from "next/navigation"
 
 
-export async function createUserAction(id, formData) {
+export async function createUserAction(id: number, formData: any) {
   try {
     await createUser(id, formData)
     // revalidatePath("/dashboard/user")
@@ -19,27 +19,27 @@ export async function createUserAction(id, formData) {
   }
 }
 
-export async function updateUserAction(id: int, formData) {
+export async function updateUserAction(id: number, formData: any) {
   try {
     const response = await updateUser(id, formData)
 
     if (response.error) {
-      throw new Error("Error updating user", response.error)
+      throw new Error("Error updating user", response.error as Error)
     }
     // revalidatePath("/dashboard/user")
     redirect("/dashboard/user")
   } catch (error) {
-    throw new Error("Error updating user", error)
+    throw new Error("Error updating user", error as Error)
   }
 }
 
-export async function deleteUserAction(formData) {
+export async function deleteUserAction(formData: { id: number }) {
   await deleteUserById(formData.id)
   // revalidatePath("/dashboard/user")
   redirect("/dashboard/user")
 }
 
-export async function createPlayerAction(id, formData) {
+export async function createPlayerAction(id: number, formData: any) {
   try {
     await createPlayer(id, formData)
     // revalidatePath("/dashboard/player")
@@ -55,8 +55,8 @@ export async function createPlayerAction(id, formData) {
 }
 
 export async function updatePlayerAction(
-  id: int,
-  formData,
+  id: number,
+  formData: any,
   redirectPath = "/dashboard/player",
   revalidateThisPath = "/dashboard/player"
 ) {
@@ -79,7 +79,7 @@ export async function updatePlayerAction(
 
 
 // Role
-export async function createRoleAction(id, formData) {
+export async function createRoleAction(id: number, formData: any) {
   try {
     const response = await createRole(id, formData)
     // revalidatePath("/dashboard/role")
@@ -91,7 +91,7 @@ export async function createRoleAction(id, formData) {
   }
 }
 
-export async function updateRoleAction(id: int, formData) {
+export async function updateRoleAction(id: number, formData: any) {
 
   try {
     await updateRole(id, formData)

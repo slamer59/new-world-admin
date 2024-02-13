@@ -18,7 +18,7 @@ import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 
-export default function PlayerForm({ player, redirectPath = "/dashboard/player", revalidateThisPath = "/dashboard/player" }) {
+export default function PlayerForm({ player }: { player: any }, redirectPath = "/dashboard/player", revalidateThisPath = "/dashboard/player") {
     const router = useRouter()
     const { toast } = useToast()
     // 1. Zod validation 
@@ -35,18 +35,18 @@ export default function PlayerForm({ player, redirectPath = "/dashboard/player",
         },
     })
     // Submit handler
-    async function onSubmit(data) {
+    async function onSubmit(data: any) {
         if (player?.createId) {
             await createPlayerAction(player.createId, data)
             toast({
                 title: "Your Player has been created.",
             })
         } else {
-            await updatePlayerAction(player?.id, data).
+            await updatePlayerAction(player?.id, data)
 
-                toast({
-                    title: "Your player has been updated.",
-                })
+            toast({
+                title: "Your player has been updated.",
+            })
         }
 
         form.reset()

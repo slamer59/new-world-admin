@@ -1,5 +1,5 @@
 import * as z from "zod"
-import * as imports from "../null"
+
 import { CompletePlayer, RelatedPlayerModel } from "./index"
 
 export const StatusModel = z.object({

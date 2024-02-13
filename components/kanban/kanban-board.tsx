@@ -25,7 +25,7 @@ import { TaskCard, type Task } from "./TaskCard";
 import { coordinateGetter } from "./multipleContainersKeyboardPreset";
 import { hasDraggableData } from "./utils";
 
-export function KanbanBoard({ warCompositions }) {
+export function KanbanBoard({ warCompositions }: { warCompositions: any[] }) {
   const groupedColumns = [{
     id: 1,
     name: "Point",
@@ -43,15 +43,16 @@ export function KanbanBoard({ warCompositions }) {
     1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3
   ]
   // Every group has it's column
-  const defaultCols = groupedColumns.map((group) => {
+  const defaultCols: Column[] = groupedColumns.map((group) => {
     return {
       id: `war-${group.id}` as ColumnId,
       title: `${group.name}`
     }
-  }) satisfies Column[];
+  });
 
-  const initialTasks = warCompositions.flatMap((warCompo) =>
-    warCompo.slot.map((slot) => ({
+  const initialTasks: Task[] = warCompositions.flatMap((warCompo: any) =>
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
+    warCompo?.slot.map((slot: { id: number; name: string }) => ({
       id: `slot-${slot.id}`,
       columnId: `war-${groupedColumnsMap[slot.id - 1]}` as ColumnId,
       content: `<b>${slot.name}</b>`,
