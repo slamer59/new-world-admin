@@ -62,6 +62,7 @@ model Player {
     updated_at       DateTime        @updatedAt
     warComposition   WarComposition? @relation(fields: [warCompositionId], references: [id])
     warCompositionId Int?
+    warStat          WarStat[]
 }
 
 model PlayerType {
@@ -171,18 +172,36 @@ enum Level {
 }
 
 model War {
-    id         Int      @id @default(autoincrement())
-    date       DateTime @default(now())
-    created_at DateTime @default(now())
-    updated_at DateTime @updatedAt
+    id          Int              @id @default(autoincrement())
+    name        String
+    date        DateTime
+    created_at  DateTime         @default(now())
+    updated_at  DateTime         @updatedAt
+    composition WarComposition[]
+    warStat     WarStat[]
 }
 
 model WarComposition {
     id         Int          @id @default(autoincrement())
     name       String
     position   WarPosition
-    slot       Player[]
+    players    Player[]
     created_at DateTime     @default(now())
     updated_at DateTime     @updatedAt
     playerType PlayerType[]
+    war        War[]
+}
+
+model WarStat {
+    id       Int    @id @default(autoincrement())
+    // date     DateTime
+    assist   Int?
+    death    Int?
+    dmg      Int?
+    healing  Int?
+    kill     Int?
+    player   Player @relation(fields: [playerId], references: [id])
+    playerId Int
+    war      War    @relation(fields: [warId], references: [id])
+    warId    Int
 }

@@ -12,7 +12,7 @@ export const WarCompositionModel = z.object({
 })
 
 export interface CompleteWarComposition extends z.infer<typeof WarCompositionModel> {
-  slot: CompletePlayer[]
+  player: CompletePlayer[]
   playerType: CompletePlayerType[]
 }
 
@@ -22,6 +22,6 @@ export interface CompleteWarComposition extends z.infer<typeof WarCompositionMod
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
 export const RelatedWarCompositionModel: z.ZodSchema<CompleteWarComposition> = z.lazy(() => WarCompositionModel.extend({
-  slot: RelatedPlayerModel.array(),
+  player: RelatedPlayerModel.array(),
   playerType: RelatedPlayerTypeModel.array(),
 }))

@@ -10,7 +10,7 @@ export async function getWarCompositions() {
                     id: true,
                     name: true,
                     position: true,
-                    slot: {
+                    players: {
                         select: {
 
                             id: true,

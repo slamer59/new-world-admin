@@ -36,3 +36,7 @@ https://github.com/pantharshit00/prisma-docs-generator
 https://github.com/vantezzen/auto-form
 
 https://github.com/safak/nextadmin/tree/completed
+
+## Prisma Command
+
+npx prisma db push --force-reset && npx prisma db push

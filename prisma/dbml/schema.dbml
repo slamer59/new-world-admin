@@ -23,6 +23,7 @@ Table Player {
   updated_at DateTime [not null]
   warComposition WarComposition
   warCompositionId Int
+  warStat WarStat [not null]
 }
 
 Table PlayerType {
@@ -62,19 +63,36 @@ Table Status {
 
 Table War {
   id Int [pk, increment]
-  date DateTime [default: `now()`, not null]
+  name String [not null]
+  date DateTime [not null]
   created_at DateTime [default: `now()`, not null]
   updated_at DateTime [not null]
+  composition WarComposition [not null]
+  warStat WarStat [not null]
 }
 
 Table WarComposition {
   id Int [pk, increment]
   name String [not null]
   position WarPosition [not null]
-  slot Player [not null]
+  players Player [not null]
   created_at DateTime [default: `now()`, not null]
   updated_at DateTime [not null]
   playerType PlayerType [not null]
+  war War [not null]
+}
+
+Table WarStat {
+  id Int [pk, increment]
+  assist Int
+  death Int
+  dmg Int
+  healing Int
+  kill Int
+  player Player [not null]
+  playerId Int [not null]
+  war War [not null]
+  warId Int [not null]
 }
 
 Enum WarPosition {
@@ -154,3 +172,7 @@ Ref: Player.statusId > Status.id
 Ref: Player.warCompositionId > WarComposition.id
 
 Ref: Role.playerId > Player.id
+
+Ref: WarStat.playerId > Player.id
+
+Ref: WarStat.warId > War.id

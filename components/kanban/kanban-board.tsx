@@ -52,11 +52,11 @@ export function KanbanBoard({ warCompositions }: { warCompositions: any[] }) {
 
   const initialTasks: Task[] = warCompositions.flatMap((warCompo: any) =>
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
-    warCompo?.slot.map((slot: { id: number; name: string }) => ({
-      id: `slot-${slot.id}`,
-      columnId: `war-${groupedColumnsMap[slot.id - 1]}` as ColumnId,
-      content: `<b>${slot.name}</b>`,
-      playerData: slot,
+    warCompo?.players.map((player: { id: number; name: string }) => ({
+      id: `player-${player.id}`,
+      columnId: `war-${groupedColumnsMap[player.id - 1]}` as ColumnId,
+      content: `<b>${player.name}</b>`,
+      playerData: player,
     }))
   );
 

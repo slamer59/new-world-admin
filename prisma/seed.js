@@ -10,10 +10,10 @@ import {
 } from "@prisma/client";
 
 const prisma = new PrismaClient();
-const numberOfPlayer = 20;
-const numberOfPlayerType = 15
-const numberOfWarComposition = 10
-
+const numberOfPlayer = 10;
+const numberOfPlayerType = 2
+const numberOfWarComposition = 4
+const numberOfWars = 10
 
 async function seed() {
   try {
@@ -75,7 +75,7 @@ async function seed() {
     ]
 
     // Seed additional users
-    for (let i = 0; i < numberOfPlayer; i++) {
+    for (let i = 1; i <= numberOfPlayer ; i++) {
       const user = await prisma.user.upsert({
         where: { id: i },
         update: {},
@@ -131,29 +131,99 @@ async function seed() {
      * @param {readonly any[]} levelList
      * @param {number} count
      */
-    function generatePlayers(roleList, levelList, count) {
-      const players = [];
-      for (let i = 0; i < count; i++) {
-        players.push({
+    function generatePlayerTypes(roleList, levelList, count) {
+      const playerTypes = [];
+      for (let i = 1; i <= count; i++) {
+        playerTypes.push({
           name: faker.person.firstName(),
           roleType: faker.helpers.arrayElement(roleList),
           level: faker.helpers.arrayElement(levelList),
         });
       }
-      return players;
+      return playerTypes;
     }
+    
+    
+    function splitArrayIntoGroups(numberOfPlayers, numberOfWarComposition) {
+      if (numberOfWarComposition <= 0) {
+        return [];
+      }
+    
+      const playersPerGroup = Math.ceil(numberOfPlayers / numberOfWarComposition);
+      const groups = [];
+    
+      for (let i = 0; i < numberOfWarComposition; i++) {
+        const group = [];
+    
+        for (let j = 0; j < playersPerGroup; j++) {
+          const playerIndex = i * playersPerGroup + j;
+          if (playerIndex < numberOfPlayers) {
+            group.push(playerIndex);
+          }
+        }
+    
+        groups.push(group);
+      }
+    
+      return groups;
+    }
+
+    const warGroups = splitArrayIntoGroups(numberOfPlayer, numberOfWarComposition);
+    console.log("🚀 ~ seed ~ warGroups:", warGroups)
+
     // Create group war Composition
-    for (let i = 0; i < numberOfWarComposition; i++) {
-    await prisma.warComposition.create({
-      data: {
-        // name: faker.helpers.fromRegExp('Group #[1-10]'),
-        name: `Group # ${i}`,
-        position: faker.helpers.arrayElement(positionList),
-        playerType: {
-          create: generatePlayers(roleList, levelList, numberOfPlayerType),
+    for (let i = 0; i < numberOfWarComposition; i++) {  
+        await prisma.warComposition.create({
+          data: {
+            // name: faker.helpers.fromRegExp('Group #[1-10]'),
+            name: `Group # ${i}`,
+            position: faker.helpers.arrayElement(positionList),
+            playerType: {
+              create: generatePlayerTypes(roleList, levelList, numberOfPlayerType),
+            },
+            players: {
+              connect: warGroups[i].map(playerId => ({ id: playerId +1})),
+            }
+          },
+
+      })
+    }
+
+
+    // Create war composed of war composition
+    
+    
+
+    // Create war stat per player in war
+    for (let w = 1; w <= numberOfWars; w++) {
+      console.log("🚀 ~ seed ~ war #", w)
+      const date = faker.date.recent();
+      await prisma.war.create({
+        data: {
+          name: faker.lorem.word(),
+          composition: {
+            connect: Array.from({ length: numberOfWarComposition }, (_, i) => ({ id: i + 1 })),
+          },
+          date
         },
-      },
-    })
+      });
+      for (let i = 1; i <= numberOfPlayer; i++) {
+      
+      await prisma.warStat.create({
+          data: {
+            player: {
+              connect: { id: i },
+            },
+            war: {connect: {id: w}},
+            assist: faker.number.int({ min: 0, max: 10000 }),
+            death: faker.number.int({ min: 0, max: 10000 }),
+            dmg: faker.number.int({ min: 0, max: 10000 }),
+            healing: faker.number.int({ min: 0, max: 10000 }),
+            kill: faker.number.int({ min: 0, max: 10000 }),
+          },
+        });      
+      }
+      console.log("🚀 ~ seed ~ warStat Created")
   }
     console.log("Database seeded successfully!");
   } catch (error) {
