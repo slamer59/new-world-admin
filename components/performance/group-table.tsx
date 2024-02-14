@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/table";
 
 
-export function GroupPerfoTable({ groupPerfos }: { groupPerfos: any }) {
+export function GroupPerfoTable({ groupPerfos, title }: { groupPerfos: any, title?: string }) {
 
     // List groupPerfo keys
     const tableHeader = [...new Set([].concat(...groupPerfos.map(Object.keys)))]
@@ -28,7 +28,7 @@ export function GroupPerfoTable({ groupPerfos }: { groupPerfos: any }) {
 
     return (
         <Table>
-            <TableCaption>A list of your recent perfos.</TableCaption>
+            <TableCaption>{title || "A list of your recent perfos."}</TableCaption>
             <TableHeader>
                 <TableRow>
                     {tableHeader.map((header) => (

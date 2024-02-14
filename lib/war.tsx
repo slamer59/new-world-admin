@@ -69,5 +69,30 @@ export async function getWarStatisticsByWar({ warId = 1 }) {
         }
         throw e;
     }
+}
 
+export async function getWarStatisticsByWarAndGroup({ warId = 1 }) {
+    try {
+        const data = await prisma.warStat.findMany({
+            where: {
+                war: {
+                    id: warId
+                },
+                WarComposition: {
+                    id: 1
+                }
+            },
+            include: {
+                player: true,
+                war: true
+            },
+        });
+
+        return data
+    } catch (e) {
+        if (e instanceof Prisma.PrismaClientKnownRequestError) {
+            console.error(e);
+        }
+        throw e;
+    }
 }
