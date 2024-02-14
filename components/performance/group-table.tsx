@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/table";
 
 
-export function GroupPerfoTable({ groupPerfos }: { groupPerfo: any }) {
+export function GroupPerfoTable({ groupPerfos }: { groupPerfos: any }) {
 
     // List groupPerfo keys
     const tableHeader = [...new Set([].concat(...groupPerfos.map(Object.keys)))]
@@ -32,7 +32,7 @@ export function GroupPerfoTable({ groupPerfos }: { groupPerfo: any }) {
             <TableHeader>
                 <TableRow>
                     {tableHeader.map((header) => (
-                        <TableHead key={header}>{header}</TableHead>
+                        <TableHead className="capitalize" key={header}>{header}</TableHead>
                     ))}
                 </TableRow>
             </TableHeader>

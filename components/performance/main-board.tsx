@@ -7,7 +7,6 @@ import { GroupPerfoTable } from "./group-table";
 
 export function PerformanceBoard() {
   const groupPerfos = [
-
     {
       name: "Kiara",
       "Kills": 2,
