@@ -6,7 +6,7 @@ const breadcrumbItems = [{ title: "Team performance", link: "/dashboard/performa
 export default async function Page({
   searchParams
 }: {
-  searchParams: { [key: string]: string | string[] | undefined }
+  searchParams: Record<string, string | string[] | undefined>
 }) {
 
   const warId = typeof searchParams.war === 'string' ? Number(searchParams.war) : 1
