@@ -67,7 +67,7 @@ export async function getPlayerStatsById(id: number) {
             {
                 where: {
                     playerId: id
-                }
+                },
             }
         )
         return data;
