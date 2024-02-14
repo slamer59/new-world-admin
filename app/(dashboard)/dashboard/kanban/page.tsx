@@ -1,7 +1,7 @@
 import BreadCrumb from "@/components/breadcrumb";
 import { KanbanBoard } from "@/components/kanban/kanban-board";
 import { Heading } from "@/components/ui/heading";
-import { getWarCompositions } from "@/lib/warcompostion";
+import { getWarCompositions } from "@/lib/war";
 
 const breadcrumbItems = [{ title: "Kanban", link: "/dashboard/kanban" }];
 export default async function page() {
