@@ -9,7 +9,6 @@ import {
     TableRow
 } from "@/components/ui/table";
 
-
 export function GroupPerfoTable({ groupPerfos, title }: { groupPerfos: any, title?: string }) {
 
     // List groupPerfo keys

@@ -194,11 +194,6 @@ async function seed() {
       })
     }
 
-
-    // Create war composed of war composition
-    
-    
-
     // Create war stat per player in war
     for (let w = 1; w <= numberOfWars; w++) {
       console.log("🚀 ~ seed ~ war #", w)

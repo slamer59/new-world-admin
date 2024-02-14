@@ -68,6 +68,13 @@ export async function getPlayerStatsById(id: number) {
                 where: {
                     playerId: id
                 },
+                include: {
+                    player: {
+                        select: {
+                            name: true,
+                        }
+                    },
+                }
             }
         )
         return data;
