@@ -186,6 +186,7 @@ async function seed() {
               create: generatePlayerTypes(roleList, levelList, numberOfPlayerType),
             },
             players: {
+              // @ts-ignore
               connect: warGroups[i].map(playerId => ({ id: playerId +1})),
             }
           },

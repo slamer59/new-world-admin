@@ -3,8 +3,9 @@
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
 export function PlayerPerfOverview({ playerStats }: { playerStats: any[] }) {
-  console.log("🚀 ~ PlayerPerfOverview ~ playerStats:", playerStats)
-  const tableHeader = [...new Set([].concat(...playerStats.map(Object.keys)))]
+
+  /* @ts-ignore */
+  const tableHeader: string[] = [...new Set([].concat(...playerStats.map(Object.keys)))]
   // remove key id,playerId, warId
   tableHeader.splice(tableHeader.indexOf("id"), 1)
   tableHeader.splice(tableHeader.indexOf("playerId"), 1)

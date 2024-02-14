@@ -14,7 +14,7 @@ export function GroupPerfoTable({ groupPerfos, title }: { groupPerfos: any, titl
 
     // List groupPerfo keys
     const tableHeader = [...new Set([].concat(...groupPerfos.map(Object.keys)))]
-    const sums = groupPerfos.reduce((acc: { [x: string]: any; }, obj: { [x: string]: any; }) => {
+    const sums = groupPerfos.reduce((acc: any, obj: any) => {
         Object.keys(obj).forEach(key => {
             if (!acc[key]) {
                 acc[key] = 0;
