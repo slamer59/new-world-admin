@@ -59,8 +59,21 @@ export async function getPlayerById(id: number) {
     } catch (e) {
         console.error(e);
     }
+}
 
-
+export async function getPlayerStatsById(id: number) {
+    try {
+        const data = await prisma.warStat.findMany(
+            {
+                where: {
+                    playerId: id
+                }
+            }
+        )
+        return data;
+    } catch (e) {
+        console.error(e);
+    }
 }
 
 export async function createPlayer(id: number, data) {

@@ -5,8 +5,6 @@ import { GroupPerfoTable } from "./group-table";
 
 export async function PerformanceBoard({ warId }: { warId: number }) {
 
-
-
   const groupStats = await getWarStatisticsByWar({ warId })
 
   const groupPerfos = groupStats.map((stats: { player: { name: any; }; kill: any; death: any; assist: any; healing: any; dmg: any; }) => {

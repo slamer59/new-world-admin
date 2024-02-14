@@ -3,7 +3,7 @@ import { PerformanceBoard } from "@/components/performance/main-board";
 import { Heading } from "@/components/ui/heading";
 
 const breadcrumbItems = [{ title: "Team performance", link: "/dashboard/performance" }];
-export default async function page({
+export default async function Page({
   searchParams
 }: {
   searchParams: { [key: string]: string | string[] | undefined }
