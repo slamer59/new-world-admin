@@ -144,6 +144,10 @@ async function seed() {
     }
     
     
+    /**
+     * @param {number} numberOfPlayers
+     * @param {number} numberOfWarComposition
+     */
     function splitArrayIntoGroups(numberOfPlayers, numberOfWarComposition) {
       if (numberOfWarComposition <= 0) {
         return [];
