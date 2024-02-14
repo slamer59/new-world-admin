@@ -12,10 +12,8 @@ export async function getWarCompositions() {
                     position: true,
                     players: {
                         select: {
-
                             id: true,
                             name: true,
-
                             // roles
                             // status
                             // statusId
@@ -23,7 +21,6 @@ export async function getWarCompositions() {
                             // updated_at
                             // warComposition
                             // warCompositionId
-
                         }
                     }
                 }
@@ -36,4 +33,41 @@ export async function getWarCompositions() {
         }
         throw e;
     }
+}
+
+// War statistics
+
+export async function getWarCount() {
+    try {
+        const data = await prisma.war.count();
+        return data;
+    } catch (e) {
+        if (e instanceof Prisma.PrismaClientKnownRequestError) {
+            console.error(e);
+        }
+        throw e;
+    }
+}
+export async function getWarStatisticsByWar({ warId = 1 }) {
+    try {
+        const data = await prisma.warStat.findMany({
+            where: {
+                war: {
+                    id: warId
+                }
+            },
+            include: {
+                player: true,
+                war: true
+            },
+        });
+
+        return data
+    } catch (e) {
+        if (e instanceof Prisma.PrismaClientKnownRequestError) {
+            console.error(e);
+        }
+        throw e;
+    }
+
 }
