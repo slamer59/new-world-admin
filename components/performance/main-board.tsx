@@ -8,7 +8,6 @@ export async function PerformanceBoard({ warId }: { warId: number }) {
 
 
   const groupStats = await getWarStatisticsByWar({ warId })
-  console.log("🚀 ~ PerformanceBoard ~ groupPerfo:", groupStats)
 
   const groupPerfos = groupStats.map((stats) => {
     return {
@@ -25,7 +24,6 @@ export async function PerformanceBoard({ warId }: { warId: number }) {
 
   return (
     <>
-      {/* <Pagination /> */}
       <div className='flex space-x-6'>
         <Link
           href={{
