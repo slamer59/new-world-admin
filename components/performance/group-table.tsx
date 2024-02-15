@@ -11,8 +11,7 @@ import {
 import { Link as LLink } from "lucide-react";
 import Link from "next/link";
 
-export function GroupPerfoTable({ groupPerfos, links, title }: { groupPerfos: any, links: any, title?: string }) {
-    console.log("🚀 ~ GroupPerfoTable ~ links:", links)
+export function GroupPerfoTable({ groupPerfos, links, title }: { groupPerfos: any, links?: any, title?: string }) {
     // List groupPerfo keys
     const tableHeader = [...new Set([].concat(...groupPerfos.map(Object.keys)))]
     const sums = groupPerfos.reduce((acc: any, obj: any) => {

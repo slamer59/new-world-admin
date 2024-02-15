@@ -9,7 +9,6 @@ export async function PerformanceBoard({ warId }: { warId: number }) {
 
   const groupPerfos = groupStats.map((stats: { player: { name: any; }; kill: any; death: any; assist: any; healing: any; dmg: any; }) => {
     return {
-      id: stats?.id || stats.player,
       name: stats.player.name,
       kills: stats.kill,
       deaths: stats.death,
@@ -58,6 +57,7 @@ export async function PerformanceBoard({ warId }: { warId: number }) {
 
   return (
     <>
+
       <div className='flex space-x-6'>
         <Link
           href={{
@@ -88,8 +88,18 @@ export async function PerformanceBoard({ warId }: { warId: number }) {
           Next
         </Link>
       </div>
-      <GroupPerfoTable title="Team globale performance" groupPerfos={groupPerfos} />
-      <div className="grid grid-cols-2 gap-4 xl:grid-cols-4">
+      <GroupPerfoTable
+        title="Team globale performance"
+        links={groupStats.map((stats: { player: { name: any; }; }) => {
+          return {
+            id: stats.player.id,
+            href: `/dashboard/performance/${stats.player.id}`,
+            label: stats.player.name
+          }
+        })}
+        groupPerfos={groupPerfos}
+      />
+      <div className="flex flex-wrap gap-4">
         {groupedByWarCompositionId && Object.keys(groupedByWarCompositionId).map((key) => {
           return (
             <div key={key}>
@@ -128,7 +138,6 @@ export async function PerformanceBoard({ warId }: { warId: number }) {
           title="Total by group"
         />
       }
-
     </>
   )
 }

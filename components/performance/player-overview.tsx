@@ -2,20 +2,27 @@
 
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
+
 export function PlayerPerfOverview({ playerStats }: { playerStats: any[] }) {
+  console.log("🚀 ~ PlayerPerfOverview ~ playerStats:", playerStats)
 
+  const playerStatsCleaned = playerStats.map((playerStat) => {
+
+    return {
+      name: playerStat.player.name,
+      warId: playerStat.warId,
+      assist: playerStat.assist,
+      death: playerStat.death,
+      dmg: playerStat.dmg,
+      healing: playerStat.healing,
+      kill: playerStat.kill,
+    }
+  })
   /* @ts-ignore */
-  const tableHeader: string[] = [...new Set([].concat(...playerStats.map(Object.keys)))]
+  const tableHeader: string[] = [...new Set([].concat(...playerStatsCleaned.map(Object.keys)))]
+
   // remove key id,playerId, warId
-  tableHeader.splice(tableHeader.indexOf("id"), 1)
-  tableHeader.splice(tableHeader.indexOf("playerId"), 1)
   tableHeader.splice(tableHeader.indexOf("warId"), 1)
-
-  // capitalize first letter of keys
-  // tableHeader.forEach((key, i) => {
-  //   tableHeader[i] = key.charAt(0).toUpperCase() + key.slice(1)
-  // })
-
   const strokeColors = [
     "#003f5c",
     "#2f4b7c",
