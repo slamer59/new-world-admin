@@ -8,9 +8,11 @@ import {
     TableHeader,
     TableRow
 } from "@/components/ui/table";
+import { Link as LLink } from "lucide-react";
+import Link from "next/link";
 
-export function GroupPerfoTable({ groupPerfos, title }: { groupPerfos: any, title?: string }) {
-
+export function GroupPerfoTable({ groupPerfos, links, title }: { groupPerfos: any, links: any, title?: string }) {
+    console.log("🚀 ~ GroupPerfoTable ~ links:", links)
     // List groupPerfo keys
     const tableHeader = [...new Set([].concat(...groupPerfos.map(Object.keys)))]
     const sums = groupPerfos.reduce((acc: any, obj: any) => {
@@ -36,13 +38,23 @@ export function GroupPerfoTable({ groupPerfos, title }: { groupPerfos: any, titl
                 </TableRow>
             </TableHeader>
             <TableBody>
-                {groupPerfos.map((perfo: any) => (
+                {groupPerfos.map((perfo: any, id: number) => (
                     <TableRow key={perfo.name}>
                         {Object.keys(perfo).map((key) => {
-                            return <TableCell className="" key={key}>{perfo[key]}
-                            </TableCell>
-                        }
-                        )}
+                            return (
+                                <TableCell className="" key={key}>
+                                    {links?.[id] && key === "name" ? <>
+
+                                        <Link href={links[id].href || ""}>
+                                            <LLink className="w-4" />{perfo[key]}
+                                        </Link>
+                                    </>
+                                        : perfo[key]
+                                    }
+
+                                </TableCell>
+                            );
+                        })}
                     </TableRow>
                 ))}
             </TableBody>

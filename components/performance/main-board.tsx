@@ -9,6 +9,7 @@ export async function PerformanceBoard({ warId }: { warId: number }) {
 
   const groupPerfos = groupStats.map((stats: { player: { name: any; }; kill: any; death: any; assist: any; healing: any; dmg: any; }) => {
     return {
+      id: stats?.id || stats.player,
       name: stats.player.name,
       kills: stats.kill,
       deaths: stats.death,
@@ -30,6 +31,7 @@ export async function PerformanceBoard({ warId }: { warId: number }) {
   let totalByWarCompositionId = groupStats.reduce((acc: any, obj: any) => {
     const { warCompositionId } = obj.player;
     acc[warCompositionId] = {
+      id: obj.id,
       kill: (acc[warCompositionId]?.kill || 0) + obj.kill,
       death: (acc[warCompositionId]?.death || 0) + obj.death,
       assist: (acc[warCompositionId]?.assist || 0) + obj.assist,
@@ -94,16 +96,25 @@ export async function PerformanceBoard({ warId }: { warId: number }) {
               <h2>Group #{key}</h2>
               <GroupPerfoTable
                 title={`Total in group #${key}`}
-                groupPerfos={groupedByWarCompositionId[key].map((stats: { player: { name: any; }; kill: any; death: any; assist: any; healing: any; dmg: any; }) => {
+                links={groupedByWarCompositionId[key].map((stats: { player: { name: any; }; }) => {
                   return {
-                    name: stats.player.name,
-                    kills: stats.kill,
-                    deaths: stats.death,
-                    assists: stats.assist,
-                    healing: stats.healing,
-                    damage: stats.dmg
+                    id: stats.player.id,
+                    href: `/dashboard/performance/${stats.player.id}`,
+                    label: stats.player.name
                   }
                 })}
+                groupPerfos={
+                  groupedByWarCompositionId[key].map((stats: { player: { name: any; }; kill: any; death: any; assist: any; healing: any; dmg: any; }) => {
+                    return {
+                      name: stats.player.name,
+                      kills: stats.kill,
+                      deaths: stats.death,
+                      assists: stats.assist,
+                      healing: stats.healing,
+                      damage: stats.dmg
+                    }
+                  })
+                }
 
               />
             </div>
