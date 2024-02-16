@@ -23,6 +23,7 @@ import {
   Pizza,
   Plus,
   Settings,
+  Settings2Icon,
   SunMedium,
   SwordIcon,
   Trash,
@@ -64,6 +65,7 @@ export const Icons = {
   moon: Moon,
   laptop: Laptop,
   performance: GaugeIcon,
+  admin: Settings2Icon,
   gitHub: ({ ...props }: LucideProps) => (
     <svg
       aria-hidden="true"
