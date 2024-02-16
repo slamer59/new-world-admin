@@ -4,7 +4,6 @@ import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, X
 
 
 export function PlayerPerfOverview({ playerStats }: { playerStats: any[] }) {
-  console.log("🚀 ~ PlayerPerfOverview ~ playerStats:", playerStats)
 
   const playerStatsCleaned = playerStats.map((playerStat) => {
 
