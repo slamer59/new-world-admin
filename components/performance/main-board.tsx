@@ -57,7 +57,6 @@ export async function PerformanceBoard({ warId }: { warId: number }) {
 
   return (
     <>
-
       <div className='flex space-x-6'>
         <Link
           href={{
@@ -88,56 +87,58 @@ export async function PerformanceBoard({ warId }: { warId: number }) {
           Next
         </Link>
       </div>
-      <GroupPerfoTable
-        title="Team globale performance"
-        links={groupStats.map((stats: { player: any }) => {
-          return {
-            id: stats.player?.id,
-            href: `/dashboard/performance/${stats.player?.id}`,
-            label: stats.player.name
-          }
-        })}
-        groupPerfos={groupPerfos}
-      />
-      <div className="flex flex-wrap gap-4">
-        {groupedByWarCompositionId && Object.keys(groupedByWarCompositionId).map((key) => {
-          return (
-            <div key={key}>
-              <h2>Group #{key}</h2>
-              <GroupPerfoTable
-                title={`Total in group #${key}`}
-                links={groupedByWarCompositionId[key].map((stats: { player: any }) => {
-                  return {
-                    id: stats.player?.id,
-                    href: `/dashboard/performance/${stats.player?.id}`,
-                    label: stats.player.name
-                  }
-                })}
-                groupPerfos={
-                  groupedByWarCompositionId[key].map((stats: { player: { name: any; }; kill: any; death: any; assist: any; healing: any; dmg: any; }) => {
-                    return {
-                      name: stats.player.name,
-                      kills: stats.kill,
-                      deaths: stats.death,
-                      assists: stats.assist,
-                      healing: stats.healing,
-                      damage: stats.dmg
-                    }
-                  })
-                }
-
-              />
-            </div>
-          )
-        }
-        )}
-      </div>
-      {totalByWarCompositionId &&
+      <div className="grid grid-cols-1 gap-4 overflow-auto max-h-[800px] rounded-md border p-2">
         <GroupPerfoTable
-          groupPerfos={totalByWarCompositionId}
-          title="Total by group"
+          title="Team globale performance"
+          links={groupStats.map((stats: { player: any }) => {
+            return {
+              id: stats.player?.id,
+              href: `/dashboard/performance/${stats.player?.id}`,
+              label: stats.player.name
+            }
+          })}
+          groupPerfos={groupPerfos}
         />
-      }
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          {groupedByWarCompositionId && Object.keys(groupedByWarCompositionId).map((key) => {
+            return (
+              <div key={key}>
+                <h2>Group #{key}</h2>
+                <GroupPerfoTable
+                  title={`Total in group #${key}`}
+                  links={groupedByWarCompositionId[key].map((stats: { player: any }) => {
+                    return {
+                      id: stats.player?.id,
+                      href: `/dashboard/performance/${stats.player?.id}`,
+                      label: stats.player.name
+                    }
+                  })}
+                  groupPerfos={
+                    groupedByWarCompositionId[key].map((stats: { player: { name: any; }; kill: any; death: any; assist: any; healing: any; dmg: any; }) => {
+                      return {
+                        name: stats.player.name,
+                        kills: stats.kill,
+                        deaths: stats.death,
+                        assists: stats.assist,
+                        healing: stats.healing,
+                        damage: stats.dmg
+                      }
+                    })
+                  }
+
+                />
+              </div>
+            )
+          }
+          )}
+        </div>
+        {totalByWarCompositionId &&
+          <GroupPerfoTable
+            groupPerfos={totalByWarCompositionId}
+            title="Total by group"
+          />
+        }
+      </div>
     </>
   )
 }
