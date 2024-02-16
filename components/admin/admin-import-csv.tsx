@@ -1,6 +1,6 @@
 "use client"
 
-
+import { ScrollArea } from "@radix-ui/react-scroll-area";
 import { useState } from "react";
 import { usePapaParse } from "react-papaparse";
 import { Label } from "recharts";
@@ -33,37 +33,35 @@ export function ImportCSV() {
     }
 
     return (
-        <div>
-            <h1>Import CSV</h1>
-            <Label htmlFor="csv">Parse</Label>
-            <Input id="csv" type="file" onChange={handleFile} />
-            {data.length > 0 && (
-                <Table>
-                    {/* <TableCaption>A list of your recent invoices.</TableCaption> */}
-                    <TableHeader>
-                        <TableRow>
-                            {headers.map((header) => (
-                                <TableHead key={header}>{header}</TableHead>
-                            ))}
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        {data.map((row, index) => (
-                            <TableRow key={index}>
-                                {Object.values(row).map((cell, id) => (
-                                    <TableCell key={id}>{cell}</TableCell>
+        <>
+            <div className="flex items-center">
+                <h1>Import CSV</h1>
+                <Label htmlFor="csv">Parse</Label>
+                <Input id="csv" type="file" onChange={handleFile} />
+            </div>
+            <ScrollArea className="h-[800px] rounded-md border overflow-auto">
+                {data.length > 0 && (
+                    <Table>
+                        {/* <TableCaption>A list of your recent invoices.</TableCaption> */}
+                        <TableHeader className="">
+                            <TableRow className="sticky top-0 bg-secondary hover:bg-secondary">
+                                {headers.map((header) => (
+                                    <TableHead key={header}>{header}</TableHead>
                                 ))}
                             </TableRow>
-                        ))}
-                    </TableBody>
-                    {/* <TableFooter>
-                    <TableRow>
-                        <TableCell colSpan={headers.length}>Total</TableCell>
-                        <TableCell className="text-right">$2,500.00</TableCell>
-                    </TableRow>
-                </TableFooter> */}
-                </Table>
-            )}
-        </div>
+                        </TableHeader>
+                        <TableBody>
+                            {data.map((row, index) => (
+                                <TableRow key={index}>
+                                    {Object.values(row).map((cell, id) => (
+                                        <TableCell key={id}>{cell}</TableCell>
+                                    ))}
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                )}
+            </ScrollArea>
+        </>
     )
 }
