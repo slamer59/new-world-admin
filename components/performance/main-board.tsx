@@ -90,10 +90,10 @@ export async function PerformanceBoard({ warId }: { warId: number }) {
       </div>
       <GroupPerfoTable
         title="Team globale performance"
-        links={groupStats.map((stats: { player: { name: any; }; }) => {
+        links={groupStats.map((stats: { player: any }) => {
           return {
-            id: stats.player.id,
-            href: `/dashboard/performance/${stats.player.id}`,
+            id: stats.player?.id,
+            href: `/dashboard/performance/${stats.player?.id}`,
             label: stats.player.name
           }
         })}
@@ -106,10 +106,10 @@ export async function PerformanceBoard({ warId }: { warId: number }) {
               <h2>Group #{key}</h2>
               <GroupPerfoTable
                 title={`Total in group #${key}`}
-                links={groupedByWarCompositionId[key].map((stats: { player: { name: any; }; }) => {
+                links={groupedByWarCompositionId[key].map((stats: { player: any }) => {
                   return {
-                    id: stats.player.id,
-                    href: `/dashboard/performance/${stats.player.id}`,
+                    id: stats.player?.id,
+                    href: `/dashboard/performance/${stats.player?.id}`,
                     label: stats.player.name
                   }
                 })}

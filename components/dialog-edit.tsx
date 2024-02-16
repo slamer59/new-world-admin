@@ -9,7 +9,7 @@ import PlayerForm from "./forms/player-form"
 
 export function DialogPlayerEdit({ playerData }: { playerData: any }) {
     const redirectPath = usePathname()
-    console.log("🚀 ~ DialogPlayerEdit ~ redirectPath:", redirectPath)
+
     return (
         <Dialog>
             <DialogTrigger asChild>

@@ -1,5 +1,5 @@
 import BreadCrumb from "@/components/breadcrumb";
-import { PlayerPerfOverview } from "@/components/performance/player-overview";
+import { PlayerPerfOverview } from "@/components/performance/PlayerPerfOverview";
 import { Heading } from "@/components/ui/heading";
 import { getPlayerStatsById } from "@/lib/player";
 
