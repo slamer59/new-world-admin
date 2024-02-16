@@ -1,4 +1,7 @@
+// @ts-nocheck
+
 "use client";
+
 import {
     ma
 } from "moving-averages";
@@ -46,11 +49,11 @@ export function PlayerPerfOverview({ playerStats }: { playerStats: any[]; }) {
     };
 
     const evolutionsPlayerStats = {
-        assist: (playerStatsCleaned[playerStatsCleaned.length - 1].assist / weightedPlayerStats.assist[weightedPlayerStats.assist.length - 1] * 100).toFixed(0),
-        death: (playerStatsCleaned[playerStatsCleaned.length - 1].death / weightedPlayerStats.death[weightedPlayerStats.death.length - 1] * 100).toFixed(0),
-        dmg: (playerStatsCleaned[playerStatsCleaned.length - 1].dmg / weightedPlayerStats.dmg[weightedPlayerStats.dmg.length - 1] * 100).toFixed(0),
-        healing: (playerStatsCleaned[playerStatsCleaned.length - 1].healing / weightedPlayerStats.healing[weightedPlayerStats.healing.length - 1] * 100).toFixed(0),
-        kill: (playerStatsCleaned[playerStatsCleaned.length - 1].kill / weightedPlayerStats.kill[weightedPlayerStats.kill.length - 1] * 100).toFixed(0),
+        assist: ((playerStatsCleaned[playerStatsCleaned.length - 1]?.assist - weightedPlayerStats.assist[weightedPlayerStats.assist.length - 1]) / weightedPlayerStats.assist[weightedPlayerStats.assist.length - 1] * 100).toFixed(0),
+        death: ((playerStatsCleaned[playerStatsCleaned.length - 1]?.death - weightedPlayerStats.death[weightedPlayerStats.death.length - 1]) / weightedPlayerStats.death[weightedPlayerStats.death.length - 1] * 100).toFixed(0),
+        dmg: ((playerStatsCleaned[playerStatsCleaned.length - 1]?.dmg - weightedPlayerStats.dmg[weightedPlayerStats.dmg.length - 1]) / weightedPlayerStats.dmg[weightedPlayerStats.dmg.length - 1] * 100).toFixed(0),
+        healing: ((playerStatsCleaned[playerStatsCleaned.length - 1]?.healing - weightedPlayerStats.healing[weightedPlayerStats.healing.length - 1]) / weightedPlayerStats.healing[weightedPlayerStats.healing.length - 1] * 100).toFixed(0),
+        kill: ((playerStatsCleaned[playerStatsCleaned.length - 1]?.kill - weightedPlayerStats.kill[weightedPlayerStats.kill.length - 1]) / weightedPlayerStats.kill[weightedPlayerStats.kill.length - 1] * 100).toFixed(0),
     };
 
     /* @ts-ignore */
@@ -81,7 +84,7 @@ export function PlayerPerfOverview({ playerStats }: { playerStats: any[]; }) {
                             {/* {svgs[playerStat]} */}
                         </CardHeader>
                         <CardContent>
-                            <div className="text-2xl font-bold">{weightedPlayerStats[playerStat][weightedPlayerStats[playerStat].length - 1].toFixed(0)}</div>
+                            <div className="text-2xl font-bold">{playerStatsCleaned[playerStatsCleaned.length - 1][playerStat].toFixed(0)}</div>
                             <p className="text-xs text-muted-foreground">
                                 {evolutionsPlayerStats[playerStat] > 0 ? "🔺" : "🔻"}
                                 {evolutionsPlayerStats[playerStat]}% from last war
