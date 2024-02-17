@@ -1,10 +1,10 @@
 "use client"
 
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
 import { ChangeEvent, useState } from "react";
 import { usePapaParse } from "react-papaparse";
-import { Label } from "recharts";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../ui/table";
 
 export function ImportCSV() {
